@@ -1,0 +1,17 @@
+doctype html
+html(lang="ru")
+    head
+        meta(charset='UTF-8')
+        meta(name='description' content="Conway's Game of Life")
+        meta(name='author' content='Manakov Vladislav')
+        title Game of life
+        link(href='main.css' rel='stylesheet')
+    body
+        canvas.action-screen(width='500' height='500')
+        div.action-buttons
+            input.start-button.action-button(type='button' value='Начать')
+            input.stop-button.action-button(type='button' value='Пауза')
+            input.clear-button.action-button(type='button' value='Очистить')
+        script(src='bundle.js')
+
+
