@@ -6,8 +6,10 @@ html(lang="ru")
         meta(name='author' content='Manakov Vladislav')
         title Game of life
         link(href='main.css' rel='stylesheet')
+        script(src='http://code.createjs.com/easeljs-0.8.0.min.js')
     body
-        canvas.action-screen(width='500' height='500')
+        div.canvas-block
+            canvas(id='action-screen' width='500' height='500')
         div.action-buttons
             input.start-button.action-button(type='button' value='Начать')
             input.stop-button.action-button(type='button' value='Пауза')

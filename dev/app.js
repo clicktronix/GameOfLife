@@ -5,4 +5,4 @@
 
 import Controller from './controller/controller.js';
 
-Controller(model, view);
+let controller = new Controller();
