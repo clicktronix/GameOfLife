@@ -60,9 +60,8 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
     let count = (currentCell.status === currentCell._alive) ? -1 : 0;
     for (let w = -1; w <= 1; w++) {
         for (let h = -1; h <= 1; h++) {
-            if (cellsArray[(this.width + (i + w)) %
-                this.width][(this.height + (j + h)) %
-                this.height] === currentCell._alive) {
+            if (cellsArray[(this.width + (i + w)) % this.width]
+                    [(this.height + (j + h)) % this.height] === currentCell._alive) {
                 count++;
             }
         }
@@ -88,3 +87,18 @@ ActionScreen.prototype.createOrDestroy = function (cellsArray, i, j) {
     }
 };
 
+ActionScreen.prototype.updateAll = function (cellsArray) {
+    var i, j;
+    var newCellsArray = [];
+    for (i = 0; i < this.width; i++) {
+        newCellsArray.push([]);
+        for (j = 0; j < this.height; j++) {
+            if (this.createOrDestroy(cellsArray, i, j)) {
+                newCellsArray[i][j] = true;
+            } else {
+                newCellsArray[i][j] = false;
+            }
+        }
+    }
+    return newCellsArray;
+};

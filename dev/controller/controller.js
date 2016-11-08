@@ -7,9 +7,9 @@ import ActionScreen from '../view/action-screen.js';
 export default class Controller {
     constructor() {
         const actionScreen = new ActionScreen(50);
-        const startButton = document.getElementsByClassName('start-button');
-        const stopButton = document.getElementsByClassName('stop-button');
-        const clearButton = document.getElementsByClassName('clear-button');
+        // const startButton = document.body.getElementsByClassName('start-button');
+        // const stopButton = document.body.getElementsByClassName('stop-button');
+        // const clearButton = document.body.getElementsByClassName('clear-button');
 
         let cells = actionScreen.newEmptyArray();
         actionScreen.draw(cells);
@@ -22,23 +22,37 @@ export default class Controller {
             }
         }
 
-        startButton.onclick = function () {
-            createjs.Ticker.addEventListener('tick', updateAndDraw);
+        // startButton.onclick = function() {
+        //     createjs.Ticker.addEventListener('tick', updateAndDraw);
+        //     createjs.Ticker.paused = false;
+        //     createjs.Ticker.setInterval(200);
+        // };
+        //
+        // stopButton.onclick = function () {
+        //     createjs.Ticker.paused = (!createjs.Ticker.paused) ? true : false;
+        // };
+        //
+        // clearButton.onclick = function () {
+        //     createjs.Ticker.removeEventListener('tick', updateAndDraw);
+        //     cells = actionScreen.newEmptyArray();
+        //     actionScreen.draw(cells);
+        // };
+        $('#start-button').click(function () {
+            createjs.Ticker.addEventListener("tick", updateAndDraw);
             createjs.Ticker.paused = false;
             createjs.Ticker.setInterval(250);
-        };
 
-        stopButton.onclick = function () {
+        });
+
+        $('#stop-button').click(function () {
             createjs.Ticker.paused = (!createjs.Ticker.paused) ? true : false;
-        };
+        });
 
-        clearButton.onclick = function () {
-            createjs.Ticker.removeEventListener('tick', updateAndDraw);
+        $('#clear-button').click(function () {
+            createjs.Ticker.removeEventListener("tick", updateAndDraw);
             cells = actionScreen.newEmptyArray();
             actionScreen.draw(cells);
-        };
+        });
     }
 };
-
-
 
