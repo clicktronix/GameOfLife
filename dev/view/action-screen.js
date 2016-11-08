@@ -1,6 +1,7 @@
 /**
  * Created by clicktronix on 30.10.16.
  */
+
 import Cell from '../model/cell.js'
 
 export default class ActionScreen {
@@ -25,7 +26,6 @@ ActionScreen.prototype.newEmptyArray = function () {
 
 ActionScreen.prototype.draw = function (cellsArray) {
     this.stage.update();
-
     let i, j;
     for (i = 0; i < this.width; i++) {
         for (j = 0; j < this.height; j++) {
@@ -34,7 +34,7 @@ ActionScreen.prototype.draw = function (cellsArray) {
             currentCell.shape.x = i * 10;
             currentCell.shape.y = j * 10;
             currentCell.shape.addEventListener('click',
-                this.toggleCellAt(cellsArray, i, j, currentCell));
+                    this.toggleCellAt(cellsArray, i, j, currentCell));
         }
     }
     this.stage.update();
@@ -52,5 +52,39 @@ ActionScreen.prototype.toggleCellAt = function (cellsArray, i, j) {
         currentCell.shape.x = i * 10;
         currentCell.shape.y = j * 10;
         self.stage.update();
-    };
+    }
 };
+
+ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
+    const currentCell = cellsArray[i][j];
+    let count = (currentCell.status === currentCell._alive) ? -1 : 0;
+    for (let w = -1; w <= 1; w++) {
+        for (let h = -1; h <= 1; h++) {
+            if (cellsArray[(this.width + (i + w)) %
+                this.width][(this.height + (j + h)) %
+                this.height] === currentCell._alive) {
+                count++;
+            }
+        }
+    }
+    return count;
+};
+
+ActionScreen.prototype.createOrDestroy = function (cellsArray, i, j) {
+    if (cellsArray[i][j]) {
+        if (this.getNeighborCount(cellsArray, i, j) < 2) {
+            return 0;
+        }
+        if (this.getNeighborCount(cellsArray, i, j) > 3) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    if (!cellsArray[i][j] && (this.getNeighborCount(cellsArray, i, j) === 3)) {
+        return 1;
+    } else {
+        return 0;
+    }
+};
+
