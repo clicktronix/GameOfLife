@@ -12,12 +12,10 @@ html(lang="ru")
         div.canvas-block
             canvas(id='action-screen' width='500' height='500')
         div.action-buttons
-            //input.start-button.action-button(type='button' value='Начать')
-            //input.stop-button.action-button(type='button' value='Пауза')
-            //input.clear-button.action-button(type='button' value='Очистить')
-            input.action-button(type='button' value='Начать' id='start-button')
-            input.action-button(type='button' value='Пауза' id='stop-button')
-            input.action-button(type='button' value='Очистить' id='clear-button')
+            input.start-button.action-button(type='button' value='start')
+            input.stop-button.action-button(type='button' value='stop')
+            input.next-button.action-button(type='button' value='next')
+            input.clear-button.action-button(type='button' value='clear')
         script(src='bundle.js')
 
 

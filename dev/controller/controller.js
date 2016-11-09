@@ -22,34 +22,23 @@ export default class Controller {
             }
         }
 
-        // startButton.onclick = function() {
-        //     createjs.Ticker.addEventListener('tick', updateAndDraw);
-        //     createjs.Ticker.paused = false;
-        //     createjs.Ticker.setInterval(200);
-        // };
-        //
-        // stopButton.onclick = function () {
-        //     createjs.Ticker.paused = (!createjs.Ticker.paused) ? true : false;
-        // };
-        //
-        // clearButton.onclick = function () {
-        //     createjs.Ticker.removeEventListener('tick', updateAndDraw);
-        //     cells = actionScreen.newEmptyArray();
-        //     actionScreen.draw(cells);
-        // };
-        $('#start-button').click(function () {
-            createjs.Ticker.addEventListener("tick", updateAndDraw);
+        $('.start-button').click(function () {
+            createjs.Ticker.addEventListener('tick', updateAndDraw);
             createjs.Ticker.paused = false;
             createjs.Ticker.setInterval(250);
-
         });
 
-        $('#stop-button').click(function () {
+        $('.stop-button').click(function () {
             createjs.Ticker.paused = (!createjs.Ticker.paused) ? true : false;
         });
 
-        $('#clear-button').click(function () {
-            createjs.Ticker.removeEventListener("tick", updateAndDraw);
+        $('.next-button').click(function () {
+            cells = actionScreen.updateAll(cells);
+            actionScreen.draw(cells);
+        });
+
+        $('.clear-button').click(function () {
+            createjs.Ticker.removeEventListener('tick', updateAndDraw);
             cells = actionScreen.newEmptyArray();
             actionScreen.draw(cells);
         });

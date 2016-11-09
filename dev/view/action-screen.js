@@ -25,6 +25,7 @@ ActionScreen.prototype.newEmptyArray = function () {
 };
 
 ActionScreen.prototype.draw = function (cellsArray) {
+    this.stage.removeAllChildren();
     this.stage.update();
     let i, j;
     for (i = 0; i < this.width; i++) {
@@ -44,7 +45,7 @@ ActionScreen.prototype.toggleCellAt = function (cellsArray, i, j) {
     const self = this;
     return function () {
         const currentCell = cellsArray[i][j];
-        if (currentCell.status == currentCell._alive) {
+        if (currentCell.status === currentCell._alive) {
             currentCell.makeDead();
         } else {
             currentCell.makeAlive();
@@ -61,7 +62,7 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
     for (let w = -1; w <= 1; w++) {
         for (let h = -1; h <= 1; h++) {
             if (cellsArray[(this.width + (i + w)) % this.width]
-                    [(this.height + (j + h)) % this.height] === currentCell._alive) {
+                    [(this.height + (j + h)) % this.height].status === currentCell._alive) {
                 count++;
             }
         }
@@ -94,9 +95,9 @@ ActionScreen.prototype.updateAll = function (cellsArray) {
         newCellsArray.push([]);
         for (j = 0; j < this.height; j++) {
             if (this.createOrDestroy(cellsArray, i, j)) {
-                newCellsArray[i][j] = true;
+                newCellsArray[i][j] = cellsArray[i][j]._alive;
             } else {
-                newCellsArray[i][j] = false;
+                newCellsArray[i][j] = cellsArray[i][j]._dead;
             }
         }
     }

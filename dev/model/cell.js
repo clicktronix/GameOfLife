@@ -4,9 +4,9 @@
 
 export default class Cell {
     constructor () {
-        this.status = false;
-        this._alive = true;
-        this._dead = false;
+        this.status = 0;
+        this._alive = 1;
+        this._dead = 0;
         this.shape = new createjs.Shape();
         this.shape.graphics.beginFill('#666666')
             .beginStroke('#999999')
