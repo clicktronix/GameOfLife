@@ -20,15 +20,15 @@ export default class Controller {
 
         $('.start-button').click(function () {
             createjs.Ticker.addEventListener('tick', updateAndDraw);
-            createjs.Ticker.paused = false;
+            createjs.Ticker.setPaused(false);
             createjs.Ticker.setInterval(250);
         });
 
-        $('.stop-button').click(function () {
-            createjs.Ticker.paused = (!createjs.Ticker.paused) ? true : false;
+        $('.pause-button').click(function () {
+            createjs.Ticker.setPaused(true);
         });
 
-        $('.next-button').click(function () {
+        $('.step-button').click(function () {
             cells = actionScreen.updateAll(cells);
             actionScreen.draw(cells);
         });
