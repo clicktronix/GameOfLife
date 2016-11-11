@@ -6,7 +6,7 @@ import ActionScreen from '../view/action-screen.js';
 
 export default class Controller {
     constructor() {
-        const actionScreen = new ActionScreen(50);
+        const actionScreen = new ActionScreen(4);
         // const startButton = document.body.getElementsByClassName('start-button');
         // const stopButton = document.body.getElementsByClassName('stop-button');
         // const clearButton = document.body.getElementsByClassName('clear-button');

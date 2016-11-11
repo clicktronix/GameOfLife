@@ -71,34 +71,25 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 };
 
 ActionScreen.prototype.createOrDestroy = function (cellsArray, i, j) {
+    let a;
+    const neighborAmount = this.getNeighborCount(cellsArray, i, j);
     if (cellsArray[i][j]) {
-        if (this.getNeighborCount(cellsArray, i, j) < 2) {
-            return 0;
-        }
-        if (this.getNeighborCount(cellsArray, i, j) > 3) {
-            return 0;
+        if (neighborAmount <= 2 || neighborAmount > 3) {
+            a = false;
         } else {
-            return 1;
+            a = true;
         }
     }
-    if (!cellsArray[i][j] && (this.getNeighborCount(cellsArray, i, j) === 3)) {
-        return 1;
-    } else {
-        return 0;
-    }
+    return a;
 };
 
 ActionScreen.prototype.updateAll = function (cellsArray) {
-    var i, j;
-    var newCellsArray = [];
+    let i, j;
+    let newCellsArray = cellsArray;
     for (i = 0; i < this.width; i++) {
-        newCellsArray.push([]);
         for (j = 0; j < this.height; j++) {
-            if (this.createOrDestroy(cellsArray, i, j)) {
-                newCellsArray[i][j] = cellsArray[i][j]._alive;
-            } else {
-                newCellsArray[i][j] = cellsArray[i][j]._dead;
-            }
+            newCellsArray[i][j].status =
+                this.createOrDestroy(newCellsArray, i, j) ?  true : false;
         }
     }
     return newCellsArray;
