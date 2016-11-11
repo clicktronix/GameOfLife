@@ -31,11 +31,16 @@ ActionScreen.prototype.draw = function (cellsArray) {
     for (i = 0; i < this.width; i++) {
         for (j = 0; j < this.height; j++) {
             const currentCell = cellsArray[i][j];
+            if (currentCell.status === currentCell._alive) {
+                currentCell.makeAlive();
+            } else {
+                currentCell.makeDead();
+            }
+            currentCell.shape.x = i * 15;
+            currentCell.shape.y = j * 15;
             this.stage.addChild(currentCell.shape);
-            currentCell.shape.x = i * 10;
-            currentCell.shape.y = j * 10;
             currentCell.shape.addEventListener('click',
-                    this.toggleCellAt(cellsArray, i, j, currentCell));
+                this.toggleCellAt(cellsArray, i, j, currentCell));
         }
     }
     this.stage.update();
@@ -50,8 +55,8 @@ ActionScreen.prototype.toggleCellAt = function (cellsArray, i, j) {
         } else {
             currentCell.makeAlive();
         }
-        currentCell.shape.x = i * 10;
-        currentCell.shape.y = j * 10;
+        currentCell.shape.x = i * 15;
+        currentCell.shape.y = j * 15;
         self.stage.update();
     }
 };
@@ -71,25 +76,37 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 };
 
 ActionScreen.prototype.createOrDestroy = function (cellsArray, i, j) {
-    let a;
     const neighborAmount = this.getNeighborCount(cellsArray, i, j);
-    if (cellsArray[i][j]) {
-        if (neighborAmount <= 2 || neighborAmount > 3) {
-            a = false;
+    const currentCell = cellsArray[i][j];
+    // if alive
+    if (currentCell.status) {
+        if ((neighborAmount < 2) || (neighborAmount > 3)) {
+            return 0;
         } else {
-            a = true;
+            return 1;
         }
     }
-    return a;
+    // if dead
+    if (!currentCell.status && (neighborAmount === 3)) {
+        return 1;
+    } else {
+        return 0;
+    }
 };
 
 ActionScreen.prototype.updateAll = function (cellsArray) {
     let i, j;
-    let newCellsArray = cellsArray;
+    let newCellsArray = [];
     for (i = 0; i < this.width; i++) {
+        newCellsArray[i] = [];
         for (j = 0; j < this.height; j++) {
-            newCellsArray[i][j].status =
-                this.createOrDestroy(newCellsArray, i, j) ?  true : false;
+            const newCell = new Cell();
+            newCellsArray[i][j] = newCell;
+            if (this.createOrDestroy(cellsArray, i, j)) {
+                newCellsArray[i][j].status = cellsArray[i][j]._alive;
+            } else {
+                newCellsArray[i][j].status = cellsArray[i][j]._dead;
+            }
         }
     }
     return newCellsArray;
