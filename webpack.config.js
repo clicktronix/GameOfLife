@@ -1,6 +1,7 @@
 /**
  * Created by clicktronix on 30.10.16.
  */
+
 'use strict';
 
 let ExtractTextPlugin = require('extract-text-webpack-plugin');

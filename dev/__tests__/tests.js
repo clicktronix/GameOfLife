@@ -4,7 +4,6 @@
 
 import ActionScreen from '../view/action-screen.js';
 
-let assert = require('assert');
 let testObj = new ActionScreen(4);
 
 describe('Checking point', function() {
@@ -14,8 +13,8 @@ describe('Checking point', function() {
 
             assert.equal(testObj.getNeighborCount(testCells, 0, 0), 0, 'Zero neighbors at 0,0');
             assert.equal(testObj.getNeighborCount(testCells, 2, 2), 0, 'Zero neighbors at 2,2');
-            assert.equal(testObj.getNeighborCount(testCells, 3, 3), 0, 'Zero neighbors at #,3');
-        });
+            assert.equal(testObj.getNeighborCount(testCells, 3, 3), 0, 'Zero neighbors at 3,3');
+    });
 });
 
 describe('Get neighbor count', function() {
@@ -68,5 +67,58 @@ describe('Create or destroy', function() {
         assert.equal(testObj.createOrDestroy(testCells, 0, 2), 1, 'Cell 0,2 will regenerate');
         assert.equal(testObj.createOrDestroy(testCells, 2, 2), 0, 'Cell 2,2 will die');
         assert.equal(testObj.createOrDestroy(testCells, 3, 3), 0, 'Cell 3,3 stays dead');
+    });
+});
+
+describe('Canvas view __tests__', function() {
+    it('Checks drawing cells at the start', function () {
+        let canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        let context = canvas.get(0).getContext('2d');
+        let view = new ActionScreen(40);
+        let cells = view.newEmptyArray();
+        view.draw(cells);
+
+        let canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        let context2 = canvas2.get(0).getContext('2d');
+        for (let i = 0; i < 40; i++) {
+            for (let j = 0; j < 40; j++) {
+                let shape = new createjs.Shape();
+                shape.graphics.beginFill('#666666')
+                    .beginStroke('#999999')
+                    .drawRect(0, 0, 15, 15);
+                shape.x = i * 15;
+                shape.y = j * 15;
+            }
+        }
+        assert.equal(context.hash(), context2.hash());
+    });
+
+    it('Checks the drawing when you click', function () {
+        let canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        let context = canvas.get(0).getContext('2d');
+        let view = new ActionScreen(40);
+        let cells = view.newEmptyArray();
+        view.draw(cells);
+        view.toggleCellAt(cells, 2, 2);
+
+        let canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        let context2 = canvas2.get(0).getContext('2d');
+        for (let i = 0; i < 40; i++) {
+            for (let j = 0; j < 40; j++) {
+                let shape = new createjs.Shape();
+                if ((i === 2) && (j === 2)) {
+                    shape.graphics.beginFill('#00ff99')
+                        .beginStroke('#999999')
+                        .drawRect(0, 0, 15, 15);
+                } else {
+                    shape.graphics.beginFill('#666666')
+                        .beginStroke('#999999')
+                        .drawRect(0, 0, 15, 15);
+                }
+                shape.x = i * 15;
+                shape.y = j * 15;
+            }
+        }
+        assert.equal(context.hash(), context2.hash());
     });
 });
