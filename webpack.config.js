@@ -30,6 +30,11 @@ module.exports = {
         }]
     },
 
+    devServer: {
+        host: 'localhost',
+        port: 8080
+    },
+
     devtool: 'source-map',
 
     plugins: [
