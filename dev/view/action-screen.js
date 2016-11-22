@@ -75,7 +75,7 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
     return count;
 };
 
-ActionScreen.prototype.createOrDestroy = function (cellsArray, i, j) {
+ActionScreen.prototype.cellViability = function (cellsArray, i, j) {
     const neighborAmount = this.getNeighborCount(cellsArray, i, j);
     const currentCell = cellsArray[i][j];
     // if alive
@@ -94,7 +94,7 @@ ActionScreen.prototype.createOrDestroy = function (cellsArray, i, j) {
     }
 };
 
-ActionScreen.prototype.updateAll = function (cellsArray) {
+ActionScreen.prototype.updateAllCells = function (cellsArray) {
     let i, j;
     let newCellsArray = [];
     for (i = 0; i < this.width; i++) {
@@ -102,7 +102,7 @@ ActionScreen.prototype.updateAll = function (cellsArray) {
         for (j = 0; j < this.height; j++) {
             const newCell = new Cell();
             newCellsArray[i][j] = newCell;
-            if (this.createOrDestroy(cellsArray, i, j)) {
+            if (this.cellViability(cellsArray, i, j)) {
                 newCellsArray[i][j].status = cellsArray[i][j]._alive;
             } else {
                 newCellsArray[i][j].status = cellsArray[i][j]._dead;

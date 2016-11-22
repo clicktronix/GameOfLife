@@ -63,10 +63,10 @@ describe('Create or destroy', function() {
         testCells[2][2].status = testCells[2][2]._alive;
         testCells[2][3].status = testCells[2][3]._alive;
 
-        assert.equal(testObj.createOrDestroy(testCells, 0, 1), 1, 'Cell 0,1 will regenerate');
-        assert.equal(testObj.createOrDestroy(testCells, 0, 2), 1, 'Cell 0,2 will regenerate');
-        assert.equal(testObj.createOrDestroy(testCells, 2, 2), 0, 'Cell 2,2 will die');
-        assert.equal(testObj.createOrDestroy(testCells, 3, 3), 0, 'Cell 3,3 stays dead');
+        assert.equal(testObj.cellViability(testCells, 0, 1), 1, 'Cell 0,1 will regenerate');
+        assert.equal(testObj.cellViability(testCells, 0, 2), 1, 'Cell 0,2 will regenerate');
+        assert.equal(testObj.cellViability(testCells, 2, 2), 0, 'Cell 2,2 will die');
+        assert.equal(testObj.cellViability(testCells, 3, 3), 0, 'Cell 3,3 stays dead');
     });
 });
 

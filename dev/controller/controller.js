@@ -7,33 +7,37 @@ import ActionScreen from '../view/action-screen.js';
 export default class Controller {
     constructor() {
         const actionScreen = new ActionScreen(40);
+        let $startButton = $('.js-start-button');
+        let $stepButton = $('.js-step-button');
+        let $pauseButton = $('.js-pause-button');
+        let $clearButton = $('.js-clear-button');
 
         let cells = actionScreen.newEmptyArray();
         actionScreen.draw(cells);
 
         function updateAndDraw(event) {
             if (!event.paused) {
-                cells = actionScreen.updateAll(cells);
+                cells = actionScreen.updateAllCells(cells);
                 actionScreen.draw(cells);
             }
         }
 
-        $('.start-button').click(function () {
+        $startButton.click(function () {
             createjs.Ticker.addEventListener('tick', updateAndDraw);
             createjs.Ticker.setPaused(false);
             createjs.Ticker.setInterval(250);
         });
 
-        $('.pause-button').click(function () {
+        $pauseButton.click(function () {
             createjs.Ticker.setPaused(true);
         });
 
-        $('.step-button').click(function () {
-            cells = actionScreen.updateAll(cells);
+        $stepButton.click(function () {
+            cells = actionScreen.updateAllCells(cells);
             actionScreen.draw(cells);
         });
 
-        $('.clear-button').click(function () {
+        $clearButton.click(function () {
             createjs.Ticker.removeEventListener('tick', updateAndDraw);
             cells = actionScreen.newEmptyArray();
             actionScreen.draw(cells);
