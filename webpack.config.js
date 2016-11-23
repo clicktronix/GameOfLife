@@ -18,6 +18,12 @@ module.exports = {
     },
 
     module: {
+        preLoaders: [{
+            test: /\.js$/,
+            loader: 'eslint',
+            exclude: /node_modules/
+        }],
+
         loaders: [{
             test: /\.pug$/,
             loader: 'pug'
@@ -37,6 +43,11 @@ module.exports = {
     },
 
     devtool: 'source-map',
+
+    eslint: {
+        failOnWarning: false,
+        failOnError: true
+    },
 
     plugins: [
         new HtmlWebpackPlugin({
