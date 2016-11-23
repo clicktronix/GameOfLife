@@ -2,7 +2,7 @@
  * Created by clicktronix on 30.10.16.
  */
 
-export default class Cell {
+class Cell {
     constructor () {
         this.status = false;
         this.shape = new createjs.Shape();
@@ -12,7 +12,7 @@ export default class Cell {
         this._alive = true;
         this._dead = false;
     }
-};
+}
 
 Cell.prototype.makeAlive = function () {
     this.status = this._alive;
@@ -27,3 +27,5 @@ Cell.prototype.makeDead = function () {
         .beginStroke('#999999')
         .drawRect(0, 0, 15, 15);
 };
+
+export default Cell;

@@ -2,14 +2,14 @@
  * Created by clicktronix on 30.10.16.
  */
 
-import Cell from '../model/cell.js'
+import Cell from './cell.js'
 
-export default class ActionScreen {
+class ActionScreen {
     constructor (length) {
         this.stage = new createjs.Stage('action-screen');
         this.width = this.height = length;
     }
-};
+}
 
 ActionScreen.prototype.newEmptyArray = function () {
     let i, j;
@@ -111,3 +111,5 @@ ActionScreen.prototype.updateAllCells = function (cellsArray) {
     }
     return newCellsArray;
 };
+
+export default ActionScreen;

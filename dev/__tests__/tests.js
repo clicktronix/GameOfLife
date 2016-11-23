@@ -2,7 +2,7 @@
  * Created by clicktronix on 12.11.16.
  */
 
-import ActionScreen from '../view/action-screen.js';
+import ActionScreen from '../model/action-screen.js';
 
 let testObj = new ActionScreen(4);
 
