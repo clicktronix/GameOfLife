@@ -1,19 +1,23 @@
 module.exports = {
     "parser": "babel-eslint",
+    "extends": "airbnb",
     "env": {
         "browser": true,
         "jquery": true,
         "es6": true
     },
+    "globals": {
+        "createjs": true
+    },
     "rules": {
-        "no-debugger": 0,
-        "no-console": 0,
-        "new-cap": 0,
-        "strict": 0,
-        "no-underscore-dangle": 0,
-        "no-use-before-define": 0,
-        "eol-last": 0,
+        "indent": ["error", 4],
+        "prefer-arrow-callback": [0],
+        "no-else-return": [0],
+        "func-names": [0],
+        "eol-last": [0],
         "quotes": [2, "single"],
-        "no-var": 2
+        "no-var": [2],
+        "max-len": ["error", 110],
+        "no-unused-vars": [2, {"vars": "all", "varsIgnorePattern": "init", "args": "after-used"}]
     }
 };

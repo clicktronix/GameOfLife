@@ -2,7 +2,7 @@
  * Created by clicktronix on 12.11.16.
  */
 
-import ActionScreen from '../model/action-screen.js';
+import ActionScreen from '../Model/ActionScreen.js';
 
 let testObj = new ActionScreen(4);
 
@@ -23,7 +23,7 @@ describe('Get neighbor count', function() {
 
         for (let i = 0; i < testObj.width; i++) {
             for (let j = 0; j < testObj.height; j++) {
-                testCells[i][j].status = testCells[i][j]._alive;
+                testCells[i][j].status = testCells[i][j].alive;
             }
         }
 
@@ -37,12 +37,12 @@ describe('Get neighbor count', function() {
     it('Get neighbor count of current cell', function() {
         let testCells = testObj.newEmptyArray();
 
-        testCells[1][1].status = testCells[1][1]._alive;
-        testCells[1][2].status = testCells[1][2]._alive;
-        testCells[1][3].status = testCells[1][3]._alive;
-        testCells[2][1].status = testCells[2][1]._alive;
-        testCells[2][2].status = testCells[2][2]._alive;
-        testCells[2][3].status = testCells[2][3]._alive;
+        testCells[1][1].status = testCells[1][1].alive;
+        testCells[1][2].status = testCells[1][2].alive;
+        testCells[1][3].status = testCells[1][3].alive;
+        testCells[2][1].status = testCells[2][1].alive;
+        testCells[2][2].status = testCells[2][2].alive;
+        testCells[2][3].status = testCells[2][3].alive;
 
         assert.equal(testObj.getNeighborCount(testCells, 1, 1), 3, 'Three neighbors at 1,1');
         assert.equal(testObj.getNeighborCount(testCells, 2, 2), 5, 'Five neighbors at 2,2');
@@ -54,14 +54,14 @@ describe('Create or destroy', function() {
     it('Create or destroy current cell', function() {
         let testCells = testObj.newEmptyArray();
 
-        testCells[0][0].status = testCells[1][1]._alive;
-        testCells[0][3].status = testCells[1][1]._alive;
-        testCells[1][0].status = testCells[1][1]._alive;
-        testCells[1][2].status = testCells[1][2]._alive;
-        testCells[1][3].status = testCells[1][3]._alive;
-        testCells[2][1].status = testCells[2][1]._alive;
-        testCells[2][2].status = testCells[2][2]._alive;
-        testCells[2][3].status = testCells[2][3]._alive;
+        testCells[0][0].status = testCells[1][1].alive;
+        testCells[0][3].status = testCells[1][1].alive;
+        testCells[1][0].status = testCells[1][1].alive;
+        testCells[1][2].status = testCells[1][2].alive;
+        testCells[1][3].status = testCells[1][3].alive;
+        testCells[2][1].status = testCells[2][1].alive;
+        testCells[2][2].status = testCells[2][2].alive;
+        testCells[2][3].status = testCells[2][3].alive;
 
         assert.equal(testObj.cellViability(testCells, 0, 1), 1, 'Cell 0,1 will regenerate');
         assert.equal(testObj.cellViability(testCells, 0, 2), 1, 'Cell 0,2 will regenerate');
@@ -70,7 +70,7 @@ describe('Create or destroy', function() {
     });
 });
 
-describe('Canvas view __tests__', function() {
+describe('Canvas View __tests__', function() {
     it('Checks drawing cells at the start', function () {
         let canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
         let context = canvas.get(0).getContext('2d');

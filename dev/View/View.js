@@ -5,44 +5,82 @@
 import $ from 'jquery';
 
 class View {
-    constructor(args) {
-        let $startButton = $('.js-start-button');
-        let $stepButton = $('.js-step-button');
-        let $pauseButton = $('.js-pause-button');
-        let $clearButton = $('.js-clear-button');
+    constructor(length) {
+        this.width = this.height = length;
+        this.stage = new createjs.Stage('action-screen');
 
-        let actionScreen = args;
-        let cells = actionScreen.newEmptyArray();
-        actionScreen.draw(cells);
+        const $body = $('body');
+        const $startButton = $('.js-start-button');
+        const $stepButton = $('.js-step-button');
+        const $pauseButton = $('.js-pause-button');
+        const $clearButton = $('.js-clear-button');
 
         function updateAndDraw(event) {
             if (!event.paused) {
-                cells = actionScreen.updateAllCells(cells);
-                actionScreen.draw(cells);
+                const $event = $.Event('step');
+                $body.trigger($event);
             }
         }
 
-        $startButton.click(function () {
+        $startButton.on('click', function () {
             createjs.Ticker.addEventListener('tick', updateAndDraw);
             createjs.Ticker.setPaused(false);
-            createjs.Ticker.setInterval(250);
+            createjs.Ticker.setInterval(200);
         });
 
-        $pauseButton.click(function () {
+        $pauseButton.on('click', function () {
             createjs.Ticker.setPaused(true);
         });
 
-        $stepButton.click(function () {
-            cells = actionScreen.updateAllCells(cells);
-            actionScreen.draw(cells);
+        $stepButton.on('click', function () {
+            const $event = $.Event('step');
+            $body.trigger($event);
         });
 
-        $clearButton.click(function () {
+        $clearButton.on('click', function () {
             createjs.Ticker.removeEventListener('tick', updateAndDraw);
-            cells = actionScreen.newEmptyArray();
-            actionScreen.draw(cells);
+            const $event = $.Event('clear');
+            $body.trigger($event);
         });
     }
 }
+
+View.prototype.draw = function (cellsArray) {
+    this.stage.removeAllChildren();
+    this.stage.update();
+    let i;
+    let j;
+    for (i = 0; i < this.width; i += 1) {
+        for (j = 0; j < this.height; j += 1) {
+            const currentCell = cellsArray[i][j];
+            if (currentCell.status === currentCell.alive) {
+                currentCell.makeAlive();
+            } else {
+                currentCell.makeDead();
+            }
+            currentCell.shape.x = i * 15;
+            currentCell.shape.y = j * 15;
+            this.stage.addChild(currentCell.shape);
+            currentCell.shape.addEventListener('click',
+                this.toggleCellAt(cellsArray, i, j, currentCell));
+        }
+    }
+    this.stage.update();
+};
+
+View.prototype.toggleCellAt = function (cellsArray, i, j) {
+    const self = this;
+    return function () {
+        const currentCell = cellsArray[i][j];
+        if (currentCell.status === currentCell.alive) {
+            currentCell.makeDead();
+        } else {
+            currentCell.makeAlive();
+        }
+        currentCell.shape.x = i * 15;
+        currentCell.shape.y = j * 15;
+        self.stage.update();
+    };
+};
 
 export default View;
