@@ -48,10 +48,8 @@ class View {
 View.prototype.draw = function (cellsArray) {
     this.stage.removeAllChildren();
     this.stage.update();
-    let i;
-    let j;
-    for (i = 0; i < this.width; i += 1) {
-        for (j = 0; j < this.height; j += 1) {
+    for (let i = 0; i < this.width; i += 1) {
+        for (let j = 0; j < this.height; j += 1) {
             const currentCell = cellsArray[i][j];
             if (currentCell.status === currentCell.alive) {
                 currentCell.makeAlive();

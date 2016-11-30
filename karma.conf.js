@@ -2,6 +2,8 @@
  * Created by clicktronix on 12.11.16.
  */
 
+'use strict';
+
 let webpackConfig = require('./webpack.config.js');
 
 module.exports = function (config) {
@@ -16,7 +18,6 @@ module.exports = function (config) {
 
         files: [
             '../../packages/canteen.min.js',
-            '../../packages/jquery-3.1.1.min.js',
             '../../packages/easeljs-0.8.2.min.js',
             'tests.js'
         ],

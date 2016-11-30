@@ -2,27 +2,29 @@
  * Created by clicktronix on 12.11.16.
  */
 
-import ActionScreen from '../Model/ActionScreen.js';
+import $ from 'jquery';
+import assert from 'assert';
+import ActionScreen from '../Model/ActionScreen';
+import View from '../View/View';
 
-let testObj = new ActionScreen(4);
+const testObj = new ActionScreen(4);
 
-describe('Checking point', function() {
-    it('Checking neighbors amount',
-        function () {
-            let testCells = testObj.newEmptyArray();
+describe('Checking point', function () {
+    it('Checking neighbors amount', function () {
+        const testCells = testObj.newEmptyArray();
 
-            assert.equal(testObj.getNeighborCount(testCells, 0, 0), 0, 'Zero neighbors at 0,0');
-            assert.equal(testObj.getNeighborCount(testCells, 2, 2), 0, 'Zero neighbors at 2,2');
-            assert.equal(testObj.getNeighborCount(testCells, 3, 3), 0, 'Zero neighbors at 3,3');
+        assert.equal(testObj.getNeighborCount(testCells, 0, 0), 0, 'Zero neighbors at 0,0');
+        assert.equal(testObj.getNeighborCount(testCells, 2, 2), 0, 'Zero neighbors at 2,2');
+        assert.equal(testObj.getNeighborCount(testCells, 3, 3), 0, 'Zero neighbors at 3,3');
     });
 });
 
-describe('Get neighbor count', function() {
+describe('Get neighbor count', function () {
     it('Get neighbor count when all live', function () {
-        let testCells = testObj.newEmptyArray();
+        const testCells = testObj.newEmptyArray();
 
-        for (let i = 0; i < testObj.width; i++) {
-            for (let j = 0; j < testObj.height; j++) {
+        for (let i = 0; i < testObj.width; i += 1) {
+            for (let j = 0; j < testObj.height; j += 1) {
                 testCells[i][j].status = testCells[i][j].alive;
             }
         }
@@ -33,9 +35,9 @@ describe('Get neighbor count', function() {
     });
 });
 
-describe('Get neighbor count', function() {
-    it('Get neighbor count of current cell', function() {
-        let testCells = testObj.newEmptyArray();
+describe('Get neighbor count', function () {
+    it('Get neighbor count of current cell', function () {
+        const testCells = testObj.newEmptyArray();
 
         testCells[1][1].status = testCells[1][1].alive;
         testCells[1][2].status = testCells[1][2].alive;
@@ -50,9 +52,9 @@ describe('Get neighbor count', function() {
     });
 });
 
-describe('Create or destroy', function() {
-    it('Create or destroy current cell', function() {
-        let testCells = testObj.newEmptyArray();
+describe('Create or destroy', function () {
+    it('Create or destroy current cell', function () {
+        const testCells = testObj.newEmptyArray();
 
         testCells[0][0].status = testCells[1][1].alive;
         testCells[0][3].status = testCells[1][1].alive;
@@ -70,19 +72,21 @@ describe('Create or destroy', function() {
     });
 });
 
-describe('Canvas View __tests__', function() {
+describe('Canvas view test', function () {
     it('Checks drawing cells at the start', function () {
-        let canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
-        let context = canvas.get(0).getContext('2d');
-        let view = new ActionScreen(40);
-        let cells = view.newEmptyArray();
+        const canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        const context = canvas.get(0).getContext('2d');
+        const model = new ActionScreen(40);
+        const view = new View(40);
+        const cells = model.newEmptyArray();
         view.draw(cells);
+        view.toggleCellAt(cells, 2, 2);
 
-        let canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
-        let context2 = canvas2.get(0).getContext('2d');
-        for (let i = 0; i < 40; i++) {
-            for (let j = 0; j < 40; j++) {
-                let shape = new createjs.Shape();
+        const canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        const context2 = canvas2.get(0).getContext('2d');
+        for (let i = 0; i < 40; i += 1) {
+            for (let j = 0; j < 40; j += 1) {
+                const shape = new createjs.Shape();
                 shape.graphics.beginFill('#666666')
                     .beginStroke('#999999')
                     .drawRect(0, 0, 15, 15);
@@ -94,18 +98,19 @@ describe('Canvas View __tests__', function() {
     });
 
     it('Checks the drawing when you click', function () {
-        let canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
-        let context = canvas.get(0).getContext('2d');
-        let view = new ActionScreen(40);
-        let cells = view.newEmptyArray();
+        const canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        const context = canvas.get(0).getContext('2d');
+        const model = new ActionScreen(40);
+        const view = new View(40);
+        const cells = model.newEmptyArray();
         view.draw(cells);
         view.toggleCellAt(cells, 2, 2);
 
-        let canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
-        let context2 = canvas2.get(0).getContext('2d');
-        for (let i = 0; i < 40; i++) {
-            for (let j = 0; j < 40; j++) {
-                let shape = new createjs.Shape();
+        const canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+        const context2 = canvas2.get(0).getContext('2d');
+        for (let i = 0; i < 40; i += 1) {
+            for (let j = 0; j < 40; j += 1) {
+                const shape = new createjs.Shape();
                 if ((i === 2) && (j === 2)) {
                     shape.graphics.beginFill('#00ff99')
                         .beginStroke('#999999')
