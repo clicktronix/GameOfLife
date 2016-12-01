@@ -16,12 +16,12 @@ class Controller {
         let cells = model.newEmptyArray();
         view.draw(cells);
 
-        $body.bind('step', function () {
+        $body.on('step', function () {
             cells = model.updateAllCells(cells);
             view.draw(cells);
         });
 
-        $body.bind('clear', function () {
+        $body.on('clear', function () {
             cells = model.newEmptyArray();
             view.draw(cells);
         });

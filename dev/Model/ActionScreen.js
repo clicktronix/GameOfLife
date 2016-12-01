@@ -1,8 +1,7 @@
 /**
  * Created by clicktronix on 30.10.16.
  */
-
-import Cell from './Cell';
+import Cell from '../View/Cell';
 
 class ActionScreen {
     constructor(length) {
@@ -24,11 +23,11 @@ ActionScreen.prototype.newEmptyArray = function () {
 
 ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
     const currentCell = cellsArray[i][j];
-    let count = (currentCell.status === currentCell.alive) ? -1 : 0;
+    let count = (currentCell.status) ? -1 : 0;
     for (let w = -1; w <= 1; w += 1) {
         for (let h = -1; h <= 1; h += 1) {
             if (cellsArray[(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
-                    .status === currentCell.alive) {
+                    .status) {
                 count += 1;
             }
         }
@@ -63,9 +62,9 @@ ActionScreen.prototype.updateAllCells = function (cellsArray) {
             const newCell = new Cell();
             newCellsArray[i][j] = newCell;
             if (this.cellViability(cellsArray, i, j)) {
-                newCellsArray[i][j].status = cellsArray[i][j].alive;
+                newCellsArray[i][j].setAlive();
             } else {
-                newCellsArray[i][j].status = cellsArray[i][j].dead;
+                newCellsArray[i][j].setDead();
             }
         }
     }

@@ -11,10 +11,22 @@ html(lang='ru')
         div.canvas-block
             canvas(id='action-screen' width='600' height='600')
         div.action-buttons
-            input.js-start-button.action-button(type='button' value='start')
-            input.js-pause-button.action-button(type='button' value='pause' id='pause-button')
-            input.js-step-button.action-button(type='button' value='step')
-            input.js-clear-button.action-button(type='button' value='clear')
+            input.action-buttons__js-start-button.action-buttons__action-button(
+            type='button'
+            value='start'
+            )
+            input.action-buttons__js-pause-button.action-buttons__action-button(
+            type='button'
+            value='pause'
+            )
+            input.action-buttons__js-step-button.action-buttons__action-button(
+            type='button'
+            value='step'
+            )
+            input.action-buttons__js-clear-button.action-buttons__action-button(
+            type='button'
+            value='clear'
+            )
         script(src='../packages/easeljs-0.8.2.min.js')
 
 

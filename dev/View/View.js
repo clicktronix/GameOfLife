@@ -10,10 +10,10 @@ class View {
         this.stage = new createjs.Stage('action-screen');
 
         const $body = $('body');
-        const $startButton = $('.js-start-button');
-        const $stepButton = $('.js-step-button');
-        const $pauseButton = $('.js-pause-button');
-        const $clearButton = $('.js-clear-button');
+        const $startButton = $('.action-buttons__js-start-button');
+        const $stepButton = $('.action-buttons__js-step-button');
+        const $pauseButton = $('.action-buttons__js-pause-button');
+        const $clearButton = $('.action-buttons__js-clear-button');
 
         function updateAndDraw(event) {
             if (!event.paused) {
@@ -51,7 +51,7 @@ View.prototype.draw = function (cellsArray) {
     for (let i = 0; i < this.width; i += 1) {
         for (let j = 0; j < this.height; j += 1) {
             const currentCell = cellsArray[i][j];
-            if (currentCell.status === currentCell.alive) {
+            if (currentCell.status) {
                 currentCell.makeAlive();
             } else {
                 currentCell.makeDead();
@@ -70,7 +70,7 @@ View.prototype.toggleCellAt = function (cellsArray, i, j) {
     const self = this;
     return function () {
         const currentCell = cellsArray[i][j];
-        if (currentCell.status === currentCell.alive) {
+        if (currentCell.status) {
             currentCell.makeDead();
         } else {
             currentCell.makeAlive();

@@ -14,18 +14,18 @@ module.exports = function (config) {
 
         browsers: ['PhantomJS'],
 
-        frameworks: ['mocha', 'chai'],
+        frameworks: ['mocha'],
 
         files: [
             '../../packages/canteen.min.js',
             '../../packages/easeljs-0.8.2.min.js',
-            'tests.js'
+            '*Test.js'
         ],
 
         reporters: ['mocha'],
 
         preprocessors: {
-            'tests.js': ['webpack']
+            '*.js': ['webpack']
         },
 
         webpack: webpackConfig,
@@ -34,6 +34,8 @@ module.exports = function (config) {
             require('karma-webpack'),
             require('karma-mocha'),
             require('karma-chai'),
+            require('karma-sinon'),
+            require('karma-sinon-chai'),
             require('karma-mocha-reporter'),
             require('karma-phantomjs-launcher')
         ],
@@ -43,5 +45,11 @@ module.exports = function (config) {
                 error: 'bgRed'
             }
         },
+
+        client: {
+            chai: {
+                includeStack: true
+            }
+        }
     });
 };
