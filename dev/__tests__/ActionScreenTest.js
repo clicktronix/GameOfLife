@@ -8,10 +8,9 @@ import ActionScreen from '../Model/ActionScreen';
 const testObj = new ActionScreen(8);
 
 describe('Checking actions of the model', function () {
-
     it('Is array', function () {
         const testCells = testObj.newEmptyArray();
-        let arr = Array.isArray(testCells);
+        const arr = Array.isArray(testCells);
         assert.equal(arr, true);
     });
 

@@ -5,11 +5,10 @@
 import $ from 'jquery';
 
 class View {
-    constructor(length) {
+    constructor(length, em) {
         this.width = this.height = length;
         this.stage = new createjs.Stage('action-screen');
 
-        const $body = $('body');
         const $startButton = $('.action-buttons__js-start-button');
         const $stepButton = $('.action-buttons__js-step-button');
         const $pauseButton = $('.action-buttons__js-pause-button');
@@ -17,8 +16,7 @@ class View {
 
         function updateAndDraw(event) {
             if (!event.paused) {
-                const $event = $.Event('step');
-                $body.trigger($event);
+                em.emit('step');
             }
         }
 
@@ -33,14 +31,12 @@ class View {
         });
 
         $stepButton.on('click', function () {
-            const $event = $.Event('step');
-            $body.trigger($event);
+            em.emit('step');
         });
 
         $clearButton.on('click', function () {
             createjs.Ticker.removeEventListener('tick', updateAndDraw);
-            const $event = $.Event('clear');
-            $body.trigger($event);
+            em.emit('clear');
         });
     }
 }

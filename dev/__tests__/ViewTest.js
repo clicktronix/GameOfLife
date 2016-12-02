@@ -18,7 +18,7 @@ describe('View tests', function () {
 
         const canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
         this.context2 = canvas2.get(0).getContext('2d');
-        let stage = new createjs.Stage('action-screen');
+        const stage = new createjs.Stage('action-screen');
         for (let i = 0; i < 3; i += 1) {
             for (let j = 0; j < 3; j += 1) {
                 const shape = new createjs.Shape();

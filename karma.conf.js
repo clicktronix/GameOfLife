@@ -44,12 +44,6 @@ module.exports = function (config) {
             colors: {
                 error: 'bgRed'
             }
-        },
-
-        client: {
-            chai: {
-                includeStack: true
-            }
         }
     });
 };
