@@ -14,7 +14,7 @@ module.exports = function (config) {
 
         browsers: ['PhantomJS'],
 
-        frameworks: ['mocha'],
+        frameworks: ['mocha', 'sinon', 'chai'],
 
         files: [
             '../../packages/canteen.min.js',
@@ -28,7 +28,14 @@ module.exports = function (config) {
             '*.js': ['webpack']
         },
 
-        webpack: webpackConfig,
+        webpack: {
+            module: webpackConfig.module,
+            resolve: {
+                alias: {
+                    sinon: 'sinon/pkg/sinon.js',
+                },
+            }
+        },
 
         plugins: [
             require('karma-webpack'),
@@ -38,12 +45,6 @@ module.exports = function (config) {
             require('karma-sinon-chai'),
             require('karma-mocha-reporter'),
             require('karma-phantomjs-launcher')
-        ],
-
-        mochaReporter: {
-            colors: {
-                error: 'bgRed'
-            }
-        }
+        ]
     });
 };

@@ -4,6 +4,7 @@
 
 import $ from 'jquery';
 import assert from 'assert';
+import sinon from 'sinon';
 import ActionScreen from '../Model/ActionScreen';
 import View from '../View/View';
 
@@ -34,5 +35,15 @@ describe('View tests', function () {
 
     it('Checks drawing cells at the start', function () {
         assert.equal(this.context1.hash(), this.context2.hash());
+    });
+});
+
+describe('Manage elements tests', function () {
+    const length = 10;
+    const view = new View(length);
+    it('Check calling step button', function () {
+        const aSpy = sinon.spy(view, 'draw');
+        $('.action-buttons__js-start-button').trigger('click');
+        sinon.assert.called(aSpy);
     });
 });

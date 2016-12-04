@@ -1,6 +1,7 @@
 /**
  * Created by clicktronix on 30.10.16.
  */
+
 import Cell from '../View/Cell';
 
 class ActionScreen {
@@ -34,6 +35,50 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
     }
     return count;
 };
+
+// ActionScreen.prototype._check = function (cellsArray, i, j) {
+//     return cellsArray[(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
+//             .status
+//
+// };
+//
+// ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
+//     const currentCell = cellsArray[i][j];
+//     let count = (currentCell.status) ? -1 : 0;
+//
+//     count = cellsArray.reduce(function(sum, current) {
+//         const result = this._check(cellsArray, i, j);
+//         if(result) {
+//             return sum + 1;
+//         } else {
+//             return sum;
+//         }
+//     }, count);
+//
+//     for (let w = -1; w <= 1; w += 1) {
+//         for (let h = -1; h <= 1; h += 1) {
+//             if (cellsArray[(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
+//                     .status) {
+//                 count += 1;
+//             }
+//         }
+//     }
+//     return count;
+// };
+
+// ActionScreen.prototype.calculateNextGeneration = function(generation){
+//     let nextGeneration = [];
+//     generation.forEach(function(line, y){
+//         nextGeneration[y] = [];
+//         line.forEach(function(item, x){
+//             let neighbors = generation.slice(y>0? y-1 : 0, y+2).reduce(function(a, b){
+//                     return a + b.slice(x>0? x-1 : 0, x+2).reduce(function(a,b){return a+b}, 0);
+//                 },0) - generation[y][x];
+//             nextGeneration[y][x] = (generation[y][x]? [2,3].indexOf(neighbors) != -1 : neighbors == 3) + 0;
+//         });
+//     });
+//     return generation = nextGeneration;
+// };
 
 ActionScreen.prototype.cellViability = function (cellsArray, i, j) {
     const neighborAmount = this.getNeighborCount(cellsArray, i, j);
@@ -69,6 +114,11 @@ ActionScreen.prototype.updateAllCells = function (cellsArray) {
         }
     }
     return newCellsArray;
+};
+
+ActionScreen.prototype.getCells = function () {
+    this.cells = this.newEmptyArray();
+    return this.cells;
 };
 
 export default ActionScreen;

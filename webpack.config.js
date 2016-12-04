@@ -18,11 +18,15 @@ module.exports = {
     },
 
     module: {
-        preLoaders: [{
-            test: /\.js$/,
-            loader: 'eslint',
-            exclude: /node_modules/
-        }],
+        noParse: [
+            /sinon\.js/
+        ],
+
+        // preLoaders: [{
+        //     test: /\.js$/,
+        //     loader: 'eslint',
+        //     exclude: /node_modules/
+        // }],
 
         loaders: [{
             test: /\.pug$/,

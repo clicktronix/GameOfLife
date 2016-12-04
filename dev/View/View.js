@@ -3,9 +3,12 @@
  */
 
 import $ from 'jquery';
+import EventEmitter from 'events';
 
-class View {
-    constructor(length, em) {
+class View extends EventEmitter {
+    constructor(length) {
+        super();
+
         this.width = this.height = length;
         this.stage = new createjs.Stage('action-screen');
 
@@ -16,12 +19,15 @@ class View {
 
         function updateAndDraw(event) {
             if (!event.paused) {
-                em.emit('step');
+                this.emit('step');
             }
         }
 
+        const drawAndUpdate = updateAndDraw.bind(this);
+        const emit = this.emit.bind(this);
+
         $startButton.on('click', function () {
-            createjs.Ticker.addEventListener('tick', updateAndDraw);
+            createjs.Ticker.addEventListener('tick', drawAndUpdate);
             createjs.Ticker.setPaused(false);
             createjs.Ticker.setInterval(200);
         });
@@ -31,12 +37,12 @@ class View {
         });
 
         $stepButton.on('click', function () {
-            em.emit('step');
+            emit('step');
         });
 
         $clearButton.on('click', function () {
-            createjs.Ticker.removeEventListener('tick', updateAndDraw);
-            em.emit('clear');
+            createjs.Ticker.removeEventListener('tick', drawAndUpdate);
+            emit('clear');
         });
     }
 }
@@ -55,26 +61,26 @@ View.prototype.draw = function (cellsArray) {
             currentCell.shape.x = i * 15;
             currentCell.shape.y = j * 15;
             this.stage.addChild(currentCell.shape);
-            currentCell.shape.addEventListener('click',
-                this.toggleCellAt(cellsArray, i, j, currentCell));
+
+            function func() {
+                this.toggleCellAt(cellsArray, i, j);
+            }
+            currentCell.shape.addEventListener('click', func.bind(this));
         }
     }
     this.stage.update();
 };
 
 View.prototype.toggleCellAt = function (cellsArray, i, j) {
-    const self = this;
-    return function () {
-        const currentCell = cellsArray[i][j];
-        if (currentCell.status) {
-            currentCell.makeDead();
-        } else {
-            currentCell.makeAlive();
-        }
-        currentCell.shape.x = i * 15;
-        currentCell.shape.y = j * 15;
-        self.stage.update();
-    };
+    const currentCell = cellsArray[i][j];
+    if (currentCell.status) {
+        currentCell.makeDead();
+    } else {
+        currentCell.makeAlive();
+    }
+    currentCell.shape.x = i * 15;
+    currentCell.shape.y = j * 15;
+    this.stage.update();
 };
 
 export default View;
