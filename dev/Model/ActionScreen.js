@@ -2,7 +2,7 @@
  * Created by clicktronix on 30.10.16.
  */
 
-import Cell from '../View/Cell';
+import Cell from './Cell';
 
 class ActionScreen {
     constructor(length) {
@@ -64,20 +64,6 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 //         }
 //     }
 //     return count;
-// };
-
-// ActionScreen.prototype.calculateNextGeneration = function(generation){
-//     let nextGeneration = [];
-//     generation.forEach(function(line, y){
-//         nextGeneration[y] = [];
-//         line.forEach(function(item, x){
-//             let neighbors = generation.slice(y>0? y-1 : 0, y+2).reduce(function(a, b){
-//                     return a + b.slice(x>0? x-1 : 0, x+2).reduce(function(a,b){return a+b}, 0);
-//                 },0) - generation[y][x];
-//             nextGeneration[y][x] = (generation[y][x]? [2,3].indexOf(neighbors) != -1 : neighbors == 3) + 0;
-//         });
-//     });
-//     return generation = nextGeneration;
 // };
 
 ActionScreen.prototype.cellViability = function (cellsArray, i, j) {

@@ -17,13 +17,7 @@ class View extends EventEmitter {
         const $pauseButton = $('.action-buttons__js-pause-button');
         const $clearButton = $('.action-buttons__js-clear-button');
 
-        function updateAndDraw(event) {
-            if (!event.paused) {
-                this.emit('step');
-            }
-        }
-
-        const drawAndUpdate = updateAndDraw.bind(this);
+        const drawAndUpdate = this.updateAndDraw.bind(this);
         const emit = this.emit.bind(this);
 
         $startButton.on('click', function () {
@@ -54,9 +48,11 @@ View.prototype.draw = function (cellsArray) {
         for (let j = 0; j < this.height; j += 1) {
             const currentCell = cellsArray[i][j];
             if (currentCell.status) {
-                currentCell.makeAlive();
+                currentCell.setAlive();
+                this.makeAlive(currentCell);
             } else {
-                currentCell.makeDead();
+                currentCell.setDead();
+                this.makeDead(currentCell);
             }
             currentCell.shape.x = i * 15;
             currentCell.shape.y = j * 15;
@@ -65,6 +61,7 @@ View.prototype.draw = function (cellsArray) {
             function func() {
                 this.toggleCellAt(cellsArray, i, j);
             }
+
             currentCell.shape.addEventListener('click', func.bind(this));
         }
     }
@@ -74,13 +71,43 @@ View.prototype.draw = function (cellsArray) {
 View.prototype.toggleCellAt = function (cellsArray, i, j) {
     const currentCell = cellsArray[i][j];
     if (currentCell.status) {
-        currentCell.makeDead();
+        currentCell.setDead();
+        this.drawDead(currentCell);
     } else {
-        currentCell.makeAlive();
+        currentCell.setAlive();
+        this.drawAlive(currentCell);
     }
     currentCell.shape.x = i * 15;
     currentCell.shape.y = j * 15;
     this.stage.update();
+};
+
+View.prototype.updateAndDraw = function (event) {
+    if (!event.paused) {
+        this.emit('step');
+    }
+};
+
+View.prototype.makeAlive = function (currentCell) {
+    currentCell.shape = new createjs.Shape();
+    this.drawAlive(currentCell);
+};
+
+View.prototype.makeDead = function (currentCell) {
+    currentCell.shape = new createjs.Shape();
+    this.drawDead(currentCell);
+};
+
+View.prototype.drawAlive = function (currentCell) {
+    currentCell.shape.graphics.beginFill('#00ff99')
+        .beginStroke('#999999')
+        .drawRect(0, 0, 15, 15);
+};
+
+View.prototype.drawDead = function (currentCell) {
+    currentCell.shape.graphics.beginFill('#666666')
+        .beginStroke('#999999')
+        .drawRect(0, 0, 15, 15);
 };
 
 export default View;

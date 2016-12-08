@@ -3,7 +3,7 @@
  */
 
 import assert from 'assert';
-import Cell from '../View/Cell';
+import Cell from '../Model/Cell';
 
 describe('Cell tests', function () {
     it('Change the cells status on Alive', function () {
