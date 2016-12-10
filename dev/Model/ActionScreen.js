@@ -38,12 +38,22 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 
 // ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 //     let count = (cellsArray[i][j].status) ? -1 : 0;
-//     const neighborIndexes = [-1, 0, 1]
-//     aliveNeighbors = neighborIndexes.reduce(function (sum, rowIndex) {
+//
+//     const neighborIndexes = [-1, 0, 1];
+//     count = neighborIndexes.reduce(function (sum, rowIndex) {
 //         return sum + neighborIndexes.reduce(function (sum, columnIndex) {
-//                 return // а здесь уже использовать rowIndex и columnIndex
-//             }, 0)
-//     }, 0);
+//                 return function () {
+//                     if (cellsArray[(this.width + (i + rowIndex)) % this.width]
+//                             [(this.height + (j + columnIndex)) % this.height]
+//                             .status) {
+//                         return sum += 1;
+//                     }
+//                     else {
+//                         return sum;
+//                     }
+//                 }
+//             }, count)
+//     }, count);
 //
 //     return count;
 // };

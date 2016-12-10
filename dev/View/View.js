@@ -65,6 +65,12 @@ View.prototype.clearButton = function () {
     this.emit('clear');
 };
 
+View.prototype.updateAndDraw = function (event) {
+    if (!event.paused) {
+        this.emit('step');
+    }
+};
+
 View.prototype.draw = function (cellsArray) {
     this.stage.removeAllChildren();
     this.stage.update();
@@ -81,12 +87,7 @@ View.prototype.draw = function (cellsArray) {
             currentCell.shape.x = i * 15;
             currentCell.shape.y = j * 15;
             this.stage.addChild(currentCell.shape);
-
-            function func() {
-                this.toggleCellAt(cellsArray, i, j);
-            }
-
-            currentCell.shape.addEventListener('click', func.bind(this));
+            currentCell.shape.addEventListener('click', this.func.bind(this, cellsArray, i, j));
         }
     }
     this.stage.update();
@@ -106,14 +107,8 @@ View.prototype.toggleCellAt = function (cellsArray, i, j) {
     this.stage.update();
 };
 
-// View.prototype.func = function (cellsArray, i, j) {
-//     this.toggleCellAt(cellsArray, i, j);
-// };
-
-View.prototype.updateAndDraw = function (event) {
-    if (!event.paused) {
-        this.emit('step');
-    }
+View.prototype.func = function (cellsArray, i, j) {
+    this.toggleCellAt(cellsArray, i, j);
 };
 
 View.prototype.makeAlive = function (currentCell) {
