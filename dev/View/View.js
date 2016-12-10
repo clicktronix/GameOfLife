@@ -11,9 +11,8 @@ class View extends EventEmitter {
 
         this.width = this.height = length;
         this.stage = new createjs.Stage('action-screen');
-        const manage = this.manage.bind(this);
 
-        manage();
+        this.manage();
     }
 }
 
@@ -41,7 +40,7 @@ View.prototype.manage = function () {
     });
 
     $clearButton.on('click', function () {
-        createjs.Ticker.removeEventListener('tick', this.drawAndUpdate);
+        createjs.Ticker.removeEventListener('tick', drawAndUpdate);
         emit('clear');
     });
 };
@@ -85,10 +84,6 @@ View.prototype.toggleCellAt = function (cellsArray, i, j) {
     currentCell.shape.x = i * 15;
     currentCell.shape.y = j * 15;
     this.stage.update();
-};
-
-View.prototype.func = function (cellsArray, i, j) {
-    this.toggleCellAt(cellsArray, i, j);
 };
 
 View.prototype.updateAndDraw = function (event) {
