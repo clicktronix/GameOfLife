@@ -38,17 +38,13 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 
 // ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
 //     let count = (cellsArray[i][j].status) ? -1 : 0;
+//     const neighborIndexes = [-1, 0, 1]
+//     aliveNeighbors = neighborIndexes.reduce(function (sum, rowIndex) {
+//         return sum + neighborIndexes.reduce(function (sum, columnIndex) {
+//                 return // а здесь уже использовать rowIndex и columnIndex
+//             }, 0)
+//     }, 0);
 //
-//     count = cellsArray.reduce(function (sum) {
-//         for (let w = -1; w <= 1; w += 1) {
-//             for (let h = -1; h <= 1; h += 1) {
-//                 if ([(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
-//                         .status) {
-//                     sum += 1;
-//                 }
-//             }
-//         }
-//     }, count);
 //     return count;
 // };
 

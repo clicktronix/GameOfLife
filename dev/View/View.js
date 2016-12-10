@@ -11,14 +11,18 @@ class View extends EventEmitter {
 
         this.width = this.height = length;
         this.stage = new createjs.Stage('action-screen');
+        this.drawAndUpdate = this.updateAndDraw.bind(this);
+        this.emit = this.emit.bind(this);
 
-        this.manage();
+        this.gameEventManagement();
     }
 }
 
-View.prototype.manage = function () {
-    const emit = this.emit.bind(this);
-    const drawAndUpdate = this.updateAndDraw.bind(this);
+View.prototype.gameEventManagement = function () {
+    const start = this.startButton.bind(this);
+    const step = this.stepButton.bind(this);
+    const clear = this.clearButton.bind(this);
+    const pause = this.pauseButton.bind(this);
 
     const $startButton = $('.action-buttons__js-start-button');
     const $stepButton = $('.action-buttons__js-step-button');
@@ -26,23 +30,39 @@ View.prototype.manage = function () {
     const $clearButton = $('.action-buttons__js-clear-button');
 
     $startButton.on('click', function () {
-        createjs.Ticker.addEventListener('tick', drawAndUpdate);
-        createjs.Ticker.setPaused(false);
-        createjs.Ticker.setInterval(200);
+        start();
     });
 
     $pauseButton.on('click', function () {
-        createjs.Ticker.setPaused(true);
+        pause();
     });
 
     $stepButton.on('click', function () {
-        emit('step');
+        step();
     });
 
     $clearButton.on('click', function () {
-        createjs.Ticker.removeEventListener('tick', drawAndUpdate);
-        emit('clear');
+        clear();
     });
+};
+
+View.prototype.startButton = function () {
+    createjs.Ticker.addEventListener('tick', this.drawAndUpdate);
+    createjs.Ticker.setPaused(false);
+    createjs.Ticker.setInterval(200);
+};
+
+View.prototype.stepButton = function () {
+    this.emit('step');
+};
+
+View.prototype.pauseButton = function () {
+    createjs.Ticker.setPaused(true);
+};
+
+View.prototype.clearButton = function () {
+    createjs.Ticker.removeEventListener('tick', this.drawAndUpdate);
+    this.emit('clear');
 };
 
 View.prototype.draw = function (cellsArray) {
@@ -85,6 +105,10 @@ View.prototype.toggleCellAt = function (cellsArray, i, j) {
     currentCell.shape.y = j * 15;
     this.stage.update();
 };
+
+// View.prototype.func = function (cellsArray, i, j) {
+//     this.toggleCellAt(cellsArray, i, j);
+// };
 
 View.prototype.updateAndDraw = function (event) {
     if (!event.paused) {
