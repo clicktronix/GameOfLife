@@ -11,7 +11,6 @@ class View extends EventEmitter {
 
         this.width = this.height = length;
         this.stage = new createjs.Stage('action-screen');
-        this.drawAndUpdate = this.updateAndDraw.bind(this);
         const manage = this.manage.bind(this);
 
         manage();
