@@ -36,33 +36,19 @@ ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
     return count;
 };
 
-// ActionScreen.prototype._check = function (cellsArray, i, j) {
-//     return cellsArray[(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
-//             .status
-//
-// };
-//
 // ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
-//     const currentCell = cellsArray[i][j];
-//     let count = (currentCell.status) ? -1 : 0;
+//     let count = (cellsArray[i][j].status) ? -1 : 0;
 //
-//     count = cellsArray.reduce(function(sum, current) {
-//         const result = this._check(cellsArray, i, j);
-//         if(result) {
-//             return sum + 1;
-//         } else {
-//             return sum;
-//         }
-//     }, count);
-//
-//     for (let w = -1; w <= 1; w += 1) {
-//         for (let h = -1; h <= 1; h += 1) {
-//             if (cellsArray[(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
-//                     .status) {
-//                 count += 1;
+//     count = cellsArray.reduce(function (sum) {
+//         for (let w = -1; w <= 1; w += 1) {
+//             for (let h = -1; h <= 1; h += 1) {
+//                 if ([(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
+//                         .status) {
+//                     sum += 1;
+//                 }
 //             }
 //         }
-//     }
+//     }, count);
 //     return count;
 // };
 

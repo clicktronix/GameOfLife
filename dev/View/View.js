@@ -11,35 +11,41 @@ class View extends EventEmitter {
 
         this.width = this.height = length;
         this.stage = new createjs.Stage('action-screen');
+        this.drawAndUpdate = this.updateAndDraw.bind(this);
+        const manage = this.manage.bind(this);
 
-        const $startButton = $('.action-buttons__js-start-button');
-        const $stepButton = $('.action-buttons__js-step-button');
-        const $pauseButton = $('.action-buttons__js-pause-button');
-        const $clearButton = $('.action-buttons__js-clear-button');
-
-        const drawAndUpdate = this.updateAndDraw.bind(this);
-        const emit = this.emit.bind(this);
-
-        $startButton.on('click', function () {
-            createjs.Ticker.addEventListener('tick', drawAndUpdate);
-            createjs.Ticker.setPaused(false);
-            createjs.Ticker.setInterval(200);
-        });
-
-        $pauseButton.on('click', function () {
-            createjs.Ticker.setPaused(true);
-        });
-
-        $stepButton.on('click', function () {
-            emit('step');
-        });
-
-        $clearButton.on('click', function () {
-            createjs.Ticker.removeEventListener('tick', drawAndUpdate);
-            emit('clear');
-        });
+        manage();
     }
 }
+
+View.prototype.manage = function () {
+    const emit = this.emit.bind(this);
+    const drawAndUpdate = this.updateAndDraw.bind(this);
+
+    const $startButton = $('.action-buttons__js-start-button');
+    const $stepButton = $('.action-buttons__js-step-button');
+    const $pauseButton = $('.action-buttons__js-pause-button');
+    const $clearButton = $('.action-buttons__js-clear-button');
+
+    $startButton.on('click', function () {
+        createjs.Ticker.addEventListener('tick', drawAndUpdate);
+        createjs.Ticker.setPaused(false);
+        createjs.Ticker.setInterval(200);
+    });
+
+    $pauseButton.on('click', function () {
+        createjs.Ticker.setPaused(true);
+    });
+
+    $stepButton.on('click', function () {
+        emit('step');
+    });
+
+    $clearButton.on('click', function () {
+        createjs.Ticker.removeEventListener('tick', this.drawAndUpdate);
+        emit('clear');
+    });
+};
 
 View.prototype.draw = function (cellsArray) {
     this.stage.removeAllChildren();
@@ -80,6 +86,10 @@ View.prototype.toggleCellAt = function (cellsArray, i, j) {
     currentCell.shape.x = i * 15;
     currentCell.shape.y = j * 15;
     this.stage.update();
+};
+
+View.prototype.func = function (cellsArray, i, j) {
+    this.toggleCellAt(cellsArray, i, j);
 };
 
 View.prototype.updateAndDraw = function (event) {
