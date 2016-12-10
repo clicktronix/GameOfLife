@@ -58,8 +58,8 @@ describe('Manage elements tests', function () {
     let clearSpy;
     let stepSpy;
     const $body = $('body');
-    const model = new ActionScreen(10);
-    const view = new View(10);
+    const model = new ActionScreen(2);
+    const view = new View(2);
 
     beforeEach(function () {
         clearSpy = sinon.spy(model, 'getCells');

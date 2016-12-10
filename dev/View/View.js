@@ -29,21 +29,13 @@ View.prototype.gameEventManagement = function () {
     const $pauseButton = $('.action-buttons__js-pause-button');
     const $clearButton = $('.action-buttons__js-clear-button');
 
-    $startButton.on('click', function () {
-        start();
-    });
+    $startButton.on('click', start);
 
-    $pauseButton.on('click', function () {
-        pause();
-    });
+    $pauseButton.on('click', pause);
 
-    $stepButton.on('click', function () {
-        step();
-    });
+    $stepButton.on('click', step);
 
-    $clearButton.on('click', function () {
-        clear();
-    });
+    $clearButton.on('click', clear);
 };
 
 View.prototype.startButton = function () {
@@ -87,7 +79,7 @@ View.prototype.draw = function (cellsArray) {
             currentCell.shape.x = i * 15;
             currentCell.shape.y = j * 15;
             this.stage.addChild(currentCell.shape);
-            currentCell.shape.addEventListener('click', this.func.bind(this, cellsArray, i, j));
+            currentCell.shape.addEventListener('click', this.toggleCellAt.bind(this, cellsArray, i, j));
         }
     }
     this.stage.update();
@@ -105,10 +97,6 @@ View.prototype.toggleCellAt = function (cellsArray, i, j) {
     currentCell.shape.x = i * 15;
     currentCell.shape.y = j * 15;
     this.stage.update();
-};
-
-View.prototype.func = function (cellsArray, i, j) {
-    this.toggleCellAt(cellsArray, i, j);
 };
 
 View.prototype.makeAlive = function (currentCell) {
