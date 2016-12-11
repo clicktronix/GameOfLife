@@ -23,18 +23,17 @@ ActionScreen.prototype.newEmptyArray = function () {
 };
 
 ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
+    const width = this.width;
+    const height = this.height;
     let count = (cellsArray[i][j].status) ? -1 : 0;
 
     const neighborIndexes = [-1, 0, 1];
-    count = neighborIndexes.reduce(function (sum, rowIndex) {
-        return sum + neighborIndexes.reduce(function (sum, columnIndex) {
-            if (cellsArray[(40 + (i + columnIndex)) % 40]
-                    [(40 + (j + rowIndex)) % 40]
-                    .status) {
-                return sum + 1;
-            }
-            else {
-                return sum;
+    count = neighborIndexes.reduce(function (firstSum, rowIndex) {
+        return firstSum + neighborIndexes.reduce(function (secondSum, columnIndex) {
+            if (cellsArray[(width + (i + columnIndex)) % width][(height + (j + rowIndex)) % height].status) {
+                return secondSum + 1;
+            } else {
+                return secondSum;
             }
         }, 0);
     }, count);

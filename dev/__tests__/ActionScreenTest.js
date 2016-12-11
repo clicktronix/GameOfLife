@@ -7,6 +7,15 @@ import ActionScreen from '../Model/ActionScreen';
 
 const testObj = new ActionScreen(8);
 
+describe('Check cells create', function () {
+    const model = new ActionScreen(1);
+    it('Cells created', function () {
+        model.getCells();
+
+        assert.equal(model.cells[0][0].status, false);
+    });
+});
+
 describe('Checking actions of the model', function () {
     it('Is array', function () {
         const testCells = testObj.newEmptyArray();
@@ -39,7 +48,6 @@ describe('Checking actions of the model', function () {
                 testCells[i][j].setAlive();
             }
         }
-
         assert.equal(testObj.getNeighborCount(testCells, 0, 0), 8);
         assert.equal(testObj.getNeighborCount(testCells, 2, 2), 8);
         assert.equal(testObj.getNeighborCount(testCells, 3, 3), 8);

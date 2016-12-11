@@ -16,9 +16,10 @@ module.exports = {
         "no-else-return": [0],
         "func-names": [0],
         "eol-last": [0],
-        "quotes": [2, "single"],
         "no-var": [2],
         "max-len": ["error", 110],
+        "no-param-reassign": [0],
+        "no-underscore-dangle": [0],
         "no-unused-vars": [2, {"vars": "all", "varsIgnorePattern": "init", "args": "after-used"}]
     }
 };

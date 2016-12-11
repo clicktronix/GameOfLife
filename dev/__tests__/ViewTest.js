@@ -52,6 +52,27 @@ describe('View tests', function () {
 
         assert.equal(context1.hash(), context2.hash());
     });
+
+    it('Checks change fill of the alive cell', function () {
+        const currentCell = { status: false };
+        view.makeAlive(currentCell);
+
+        assert.equal(currentCell.shape.graphics._fill.style, '#00ff99');
+    });
+
+    it('Checks change fill of the dead cell', function () {
+        const currentCell = { status: false };
+        view.makeDead(currentCell);
+
+        assert.equal(currentCell.shape.graphics._fill.style, '#666666');
+    });
+
+    it('Checks equal color of the stroke', function () {
+        const currentCell = { status: false };
+        view.makeDead(currentCell);
+
+        assert.equal(currentCell.shape.graphics._stroke.style, '#999999');
+    });
 });
 
 describe('Manage elements tests', function () {
@@ -61,16 +82,19 @@ describe('Manage elements tests', function () {
     const model = new ActionScreen(2);
     const view = new View(2);
 
+    $body.append("<button class='action-buttons__js-step-button'></button>");
+    $body.append("<button class='action-buttons__js-clear-button'></button>");
+    $body.append("<button class='action-buttons__js-start-button'></button>");
+    $body.append("<button class='action-buttons__js-pause-button'></button>");
+
+    const $stepButton = $('.action-buttons__js-step-button');
+    const $clearButton = $('.action-buttons__js-clear-button');
+    const $startButton = $('.action-buttons__js-start-button');
+    const $pauseButton = $('.action-buttons__js-pause-button');
+
     beforeEach(function () {
         clearSpy = sinon.spy(model, 'getCells');
         stepSpy = sinon.spy(model, 'updateAllCells');
-
-        $body.append("<button class='action-buttons__js-step-button'></button>");
-        $body.append("<button class='action-buttons__js-clear-button'></button>");
-        $body.append("<button class='action-buttons__js-start-button'></button>");
-        $body.append("<button class='action-buttons__js-pause-button'></button>");
-
-        view.draw(model.getCells());
     });
 
     afterEach(function () {
@@ -79,47 +103,57 @@ describe('Manage elements tests', function () {
     });
 
     it('Check calling clear button', function () {
-        const $clearButton = $('.action-buttons__js-clear-button');
-        $clearButton.click(function () {
-            view.draw(model.getCells());
-        });
+        const aSpy = sinon.spy();
+
+        $clearButton.click(aSpy);
 
         $clearButton.click();
-        sinon.assert.called(clearSpy);
+        sinon.assert.calledOnce(aSpy);
     });
 
     it('Check calling step button', function () {
-        const $stepButton = $('.action-buttons__js-step-button');
-        $stepButton.click(function () {
-            model.cells = model.updateAllCells(model.cells);
-            view.draw(model.cells);
-        });
+        const aSpy = sinon.spy();
+
+        $stepButton.click(aSpy);
 
         $stepButton.click();
-        sinon.assert.called(stepSpy);
+        sinon.assert.calledOnce(aSpy);
     });
 
     it('Check calling start button', function () {
-        const $startButton = $('.action-buttons__js-start-button');
-        let gameStatus = false;
+        const aSpy = sinon.spy();
 
-        $startButton.click(function () {
-            gameStatus = true;
-        });
+        $startButton.click(aSpy);
 
         $startButton.click();
-        assert.equal(gameStatus, true);
+        sinon.assert.calledOnce(aSpy);
     });
 
     it('Check calling pause button', function () {
-        const $pauseButton = $('.action-buttons__js-pause-button');
-        let gameStatus = true;
+        const aSpy = sinon.spy();
 
-        $pauseButton.click(function () {
-            gameStatus = false;
-        });
+        $pauseButton.click(aSpy);
 
         $pauseButton.click();
-        assert.equal(gameStatus, false);
+        sinon.assert.calledOnce(aSpy);
+    });
+
+    describe('End to end manage tests', function () {
+        it('End to end clear button test', function () {
+            $clearButton.click(function () {
+                view.draw(model.getCells());
+            });
+            $clearButton.click();
+            sinon.assert.called(clearSpy);
+        });
+
+        it('End to end step button test', function () {
+            $stepButton.click(function () {
+                model.cells = model.updateAllCells(model.cells);
+                view.draw(model.cells);
+            });
+            $stepButton.click();
+            sinon.assert.called(stepSpy);
+        });
     });
 });

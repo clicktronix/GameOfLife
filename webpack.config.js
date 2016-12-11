@@ -22,11 +22,11 @@ module.exports = {
             /sinon\.js/
         ],
 
-        // preLoaders: [{
-        //     test: /\.js$/,
-        //     loader: 'eslint',
-        //     exclude: /node_modules/
-        // }],
+        preLoaders: [{
+            test: /\.js$/,
+            loader: 'eslint',
+            exclude: /node_modules/
+        }],
 
         loaders: [{
             test: /\.pug$/,
