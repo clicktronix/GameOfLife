@@ -23,40 +23,24 @@ ActionScreen.prototype.newEmptyArray = function () {
 };
 
 ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
-    const currentCell = cellsArray[i][j];
-    let count = (currentCell.status) ? -1 : 0;
-    for (let w = -1; w <= 1; w += 1) {
-        for (let h = -1; h <= 1; h += 1) {
-            if (cellsArray[(this.width + (i + w)) % this.width][(this.height + (j + h)) % this.height]
+    let count = (cellsArray[i][j].status) ? -1 : 0;
+
+    const neighborIndexes = [-1, 0, 1];
+    count = neighborIndexes.reduce(function (sum, rowIndex) {
+        return sum + neighborIndexes.reduce(function (sum, columnIndex) {
+            if (cellsArray[(40 + (i + columnIndex)) % 40]
+                    [(40 + (j + rowIndex)) % 40]
                     .status) {
-                count += 1;
+                return sum + 1;
             }
-        }
-    }
+            else {
+                return sum;
+            }
+        }, 0);
+    }, count);
+
     return count;
 };
-
-// ActionScreen.prototype.getNeighborCount = function (cellsArray, i, j) {
-//     let count = (cellsArray[i][j].status) ? -1 : 0;
-//
-//     const neighborIndexes = [-1, 0, 1];
-//     count = neighborIndexes.reduce(function (sum, rowIndex) {
-//         return sum + neighborIndexes.reduce(function (sum, columnIndex) {
-//                 return function () {
-//                     if (cellsArray[(this.width + (i + rowIndex)) % this.width]
-//                             [(this.height + (j + columnIndex)) % this.height]
-//                             .status) {
-//                         return sum += 1;
-//                     }
-//                     else {
-//                         return sum;
-//                     }
-//                 }
-//             }, count)
-//     }, count);
-//
-//     return count;
-// };
 
 ActionScreen.prototype.cellViability = function (cellsArray, i, j) {
     const neighborAmount = this.getNeighborCount(cellsArray, i, j);
