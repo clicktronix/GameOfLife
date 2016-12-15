@@ -8,18 +8,18 @@ import View from '../View/View';
 class Controller {
     constructor() {
         const length = 40;
-        const model = new ActionScreen(length);
-        const view = new View(length);
+        const _model = new ActionScreen(length);
+        const _view = new View(length);
 
-        view.draw(model.getCells());
+        _view.draw(_model.getCells());
 
-        view.on('step', function () {
-            model.cells = model.updateAllCells(model.cells);
-            view.draw(model.cells);
+        _view.on('step', function () {
+            _model.cells = _model.updateAllCells(_model.cells);
+            _view.draw(_model.cells);
         });
 
-        view.on('clear', function () {
-            view.draw(model.getCells());
+        _view.on('clear', function () {
+            _view.draw(_model.getCells());
         });
     }
 }

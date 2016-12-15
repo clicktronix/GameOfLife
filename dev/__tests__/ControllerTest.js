@@ -12,10 +12,12 @@ describe('Controller tests', function () {
     const model = new ActionScreen(length);
 
     it('The length of the controller and the view is equal', function () {
-        assert.equal(view.width, length);
+        assert.equal(view._width, length);
+        assert.equal(view._height, length);
     });
 
     it('The length of the controller and the model is equal', function () {
-        assert.equal(model.width, length);
+        assert.equal(model._width, length);
+        assert.equal(model._height, length);
     });
 });

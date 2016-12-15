@@ -48,28 +48,28 @@ describe('View tests', function () {
     });
 
     it('Checks click on the cell', function () {
-        view.toggleCellAt(model.cells, 1, 1);
+        view._toggleCellAt(model.cells, 1, 1);
 
         assert.equal(context1.hash(), context2.hash());
     });
 
     it('Checks change fill of the alive cell', function () {
         const currentCell = { status: false };
-        view.makeAlive(currentCell);
+        view._makeAlive(currentCell);
 
         assert.equal(currentCell.shape.graphics._fill.style, '#00ff99');
     });
 
     it('Checks change fill of the dead cell', function () {
         const currentCell = { status: false };
-        view.makeDead(currentCell);
+        view._makeDead(currentCell);
 
         assert.equal(currentCell.shape.graphics._fill.style, '#666666');
     });
 
     it('Checks equal color of the stroke', function () {
         const currentCell = { status: false };
-        view.makeDead(currentCell);
+        view._makeDead(currentCell);
 
         assert.equal(currentCell.shape.graphics._stroke.style, '#999999');
     });

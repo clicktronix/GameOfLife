@@ -18,13 +18,13 @@ describe('Check cells create', function () {
 
 describe('Checking actions of the model', function () {
     it('Is array', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
         const arr = Array.isArray(testCells);
         assert.equal(arr, true);
     });
 
-    it('Is out of stage', function (done) {
-        const testCells = testObj.newEmptyArray();
+    it('Is out of _stage', function (done) {
+        const testCells = testObj._newEmptyArray();
         try {
             testCells[10][10].setAlive();
         } catch (error) {
@@ -33,28 +33,28 @@ describe('Checking actions of the model', function () {
     });
 
     it('Checking neighbors amount', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
 
-        assert.equal(testObj.getNeighborCount(testCells, 0, 0), 0);
-        assert.equal(testObj.getNeighborCount(testCells, 2, 2), 0);
-        assert.equal(testObj.getNeighborCount(testCells, 3, 3), 0);
+        assert.equal(testObj._getNeighborCount(testCells, 0, 0), 0);
+        assert.equal(testObj._getNeighborCount(testCells, 2, 2), 0);
+        assert.equal(testObj._getNeighborCount(testCells, 3, 3), 0);
     });
 
     it('Get neighbor count when all live', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
 
-        for (let i = 0; i < testObj.width; i += 1) {
-            for (let j = 0; j < testObj.height; j += 1) {
+        for (let i = 0; i < testObj._width; i += 1) {
+            for (let j = 0; j < testObj._height; j += 1) {
                 testCells[i][j].setAlive();
             }
         }
-        assert.equal(testObj.getNeighborCount(testCells, 0, 0), 8);
-        assert.equal(testObj.getNeighborCount(testCells, 2, 2), 8);
-        assert.equal(testObj.getNeighborCount(testCells, 3, 3), 8);
+        assert.equal(testObj._getNeighborCount(testCells, 0, 0), 8);
+        assert.equal(testObj._getNeighborCount(testCells, 2, 2), 8);
+        assert.equal(testObj._getNeighborCount(testCells, 3, 3), 8);
     });
 
     it('Get neighbor count of current cell', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
 
         testCells[1][1].setAlive();
         testCells[1][2].setAlive();
@@ -63,13 +63,13 @@ describe('Checking actions of the model', function () {
         testCells[2][2].setAlive();
         testCells[2][3].setAlive();
 
-        assert.equal(testObj.getNeighborCount(testCells, 1, 1), 3);
-        assert.equal(testObj.getNeighborCount(testCells, 2, 2), 5);
-        assert.equal(testObj.getNeighborCount(testCells, 3, 3), 2);
+        assert.equal(testObj._getNeighborCount(testCells, 1, 1), 3);
+        assert.equal(testObj._getNeighborCount(testCells, 2, 2), 5);
+        assert.equal(testObj._getNeighborCount(testCells, 3, 3), 2);
     });
 
     it('Create or destroy current cell', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
 
         testCells[0][0].setAlive();
         testCells[0][3].setAlive();
@@ -80,36 +80,36 @@ describe('Checking actions of the model', function () {
         testCells[2][2].setAlive();
         testCells[2][3].setAlive();
 
-        assert.equal(testObj.cellViability(testCells, 0, 1), 1);
-        assert.equal(testObj.cellViability(testCells, 0, 2), 1);
-        assert.equal(testObj.cellViability(testCells, 2, 2), 0);
-        assert.equal(testObj.cellViability(testCells, 3, 3), 0);
+        assert.equal(testObj._cellViability(testCells, 0, 1), 1);
+        assert.equal(testObj._cellViability(testCells, 0, 2), 1);
+        assert.equal(testObj._cellViability(testCells, 2, 2), 0);
+        assert.equal(testObj._cellViability(testCells, 3, 3), 0);
     });
 
     it('Loop check', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
 
         testCells[1][3].setAlive();
         testCells[2][3].setAlive();
         testCells[3][3].setAlive();
 
-        assert.equal(testObj.cellViability(testCells, 2, 2), 1);
-        assert.equal(testObj.cellViability(testCells, 2, 3), 1);
-        assert.equal(testObj.cellViability(testCells, 2, 4), 1);
+        assert.equal(testObj._cellViability(testCells, 2, 2), 1);
+        assert.equal(testObj._cellViability(testCells, 2, 3), 1);
+        assert.equal(testObj._cellViability(testCells, 2, 4), 1);
     });
 
     it('Static check', function () {
-        const testCells = testObj.newEmptyArray();
+        const testCells = testObj._newEmptyArray();
 
         testCells[1][3].setAlive();
         testCells[2][3].setAlive();
         testCells[1][4].setAlive();
         testCells[2][4].setAlive();
 
-        assert.equal(testObj.cellViability(testCells, 1, 3), 1);
-        assert.equal(testObj.cellViability(testCells, 2, 3), 1);
-        assert.equal(testObj.cellViability(testCells, 1, 4), 1);
-        assert.equal(testObj.cellViability(testCells, 2, 4), 1);
+        assert.equal(testObj._cellViability(testCells, 1, 3), 1);
+        assert.equal(testObj._cellViability(testCells, 2, 3), 1);
+        assert.equal(testObj._cellViability(testCells, 1, 4), 1);
+        assert.equal(testObj._cellViability(testCells, 2, 4), 1);
     });
 });
 
