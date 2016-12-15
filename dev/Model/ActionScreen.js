@@ -65,22 +65,40 @@ ActionScreen.prototype._getCurrentCellStatus = function (cellsArray, i, j, colum
 };
 
 ActionScreen.prototype._cellViability = function (cellsArray, i, j) {
-    const neighborAmount = this._getNeighborCount(cellsArray, i, j);
     const currentCell = cellsArray[i][j];
     // if alive
     if (currentCell.status) {
-        if ((neighborAmount < 2) || (neighborAmount > 3)) {
+        if ((this._cellsLowPopulation(cellsArray, i, j)) ||
+            (this._cellsOverPopulation(cellsArray, i, j))) {
             return 0;
         } else {
             return 1;
         }
     }
     // if dead
-    if (!currentCell.status && (neighborAmount === 3)) {
+    if (!currentCell.status && (this._cellsOptimalPopulation(cellsArray, i, j))) {
         return 1;
     } else {
         return 0;
     }
+};
+
+ActionScreen.prototype._cellsOverPopulation = function (cellsArray, i, j) {
+    const neighborAmount = this._getNeighborCount(cellsArray, i, j);
+    const optimalPopulation = 3;
+    return neighborAmount > optimalPopulation;
+};
+
+ActionScreen.prototype._cellsLowPopulation = function (cellsArray, i, j) {
+    const neighborAmount = this._getNeighborCount(cellsArray, i, j);
+    const lowPopulation = 2;
+    return neighborAmount < lowPopulation;
+};
+
+ActionScreen.prototype._cellsOptimalPopulation = function (cellsArray, i, j) {
+    const neighborAmount = this._getNeighborCount(cellsArray, i, j);
+    const optimalPopulation = 3;
+    return neighborAmount === optimalPopulation;
 };
 
 export default ActionScreen;
