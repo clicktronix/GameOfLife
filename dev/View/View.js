@@ -14,111 +14,108 @@ class View extends EventEmitter {
         this.drawAndUpdate = this._updateAndDraw.bind(this);
         this.emit = this.emit.bind(this);
 
-        this.gameEventManagement();
+        this._gameEventManagement();
+    }
+
+    draw(cellsArray) {
+        this._stage.removeAllChildren();
+        this._stage.update();
+        const squares = [];
+        for (let i = 0; i < this._width; i += 1) {
+            for (let j = 0; j < this._height; j += 1) {
+                squares.push([]);
+                const currentCell = cellsArray[i][j];
+                let square = squares[i][j];
+                square = new createjs.Shape();
+
+                if (currentCell.status) {
+                    currentCell.setAlive();
+                    View._drawAlive(square);
+                } else {
+                    currentCell.setDead();
+                    View._drawDead(square);
+                }
+                square.x = i * 15;
+                square.y = j * 15;
+                this._stage.addChild(square);
+                square.addEventListener('click',
+                    this._toggleCellAt.bind(this, cellsArray, i, j, square));
+            }
+        }
+        this._stage.update();
+    }
+
+    _gameEventManagement() {
+        const start = this._startTheProcessOfLife.bind(this);
+        const step = this._stepOfLife.bind(this);
+        const clear = this._clearActionScreen.bind(this);
+        const pause = View._pauseTheProcessOfLife;
+
+        const $startButton = $('.action-buttons__js-start-button');
+        const $stepButton = $('.action-buttons__js-step-button');
+        const $pauseButton = $('.action-buttons__js-pause-button');
+        const $clearButton = $('.action-buttons__js-clear-button');
+
+        $startButton.on('click', start);
+
+        $pauseButton.on('click', pause);
+
+        $stepButton.on('click', step);
+
+        $clearButton.on('click', clear);
+    }
+
+    _startTheProcessOfLife() {
+        createjs.Ticker.addEventListener('tick', this.drawAndUpdate);
+        createjs.Ticker.setPaused(false);
+        createjs.Ticker.setInterval(200);
+    }
+
+    _stepOfLife() {
+        this.emit('step');
+    }
+
+    static _pauseTheProcessOfLife() {
+        createjs.Ticker.setPaused(true);
+    }
+
+    _clearActionScreen() {
+        createjs.Ticker.removeEventListener('tick', this.drawAndUpdate);
+        this.emit('clear');
+    }
+
+    _updateAndDraw(event) {
+        if (!event.paused) {
+            this.emit('step');
+        }
+    }
+
+    _toggleCellAt(cellsArray, i, j, square) {
+        const currentCell = cellsArray[i][j];
+        if (currentCell.status) {
+            currentCell.setDead();
+            View._drawDead(square);
+        } else {
+            currentCell.setAlive();
+            View._drawAlive(square);
+        }
+        square.x = i * 15;
+        square.y = j * 15;
+        this._stage.update();
+    }
+
+    static _drawAlive(square) {
+        square.graphics.beginFill('#00ff99')
+            .beginStroke('#999999')
+            .drawRect(0, 0, 15, 15);
+    }
+
+    static _drawDead(square) {
+        square.graphics.beginFill('#666666')
+            .beginStroke('#999999')
+            .drawRect(0, 0, 15, 15);
     }
 }
 
-View.prototype.gameEventManagement = function () {
-    const start = this._startButton.bind(this);
-    const step = this._stepButton.bind(this);
-    const clear = this._clearButton.bind(this);
-    const pause = this._pauseButton.bind(this);
-
-    const $startButton = $('.action-buttons__js-start-button');
-    const $stepButton = $('.action-buttons__js-step-button');
-    const $pauseButton = $('.action-buttons__js-pause-button');
-    const $clearButton = $('.action-buttons__js-clear-button');
-
-    $startButton.on('click', start);
-
-    $pauseButton.on('click', pause);
-
-    $stepButton.on('click', step);
-
-    $clearButton.on('click', clear);
-};
-
-View.prototype.draw = function (cellsArray) {
-    this._stage.removeAllChildren();
-    this._stage.update();
-    for (let i = 0; i < this._width; i += 1) {
-        for (let j = 0; j < this._height; j += 1) {
-            const currentCell = cellsArray[i][j];
-            if (currentCell.status) {
-                currentCell.setAlive();
-                this._makeAlive(currentCell);
-            } else {
-                currentCell.setDead();
-                this._makeDead(currentCell);
-            }
-            currentCell.shape.x = i * 15;
-            currentCell.shape.y = j * 15;
-            this._stage.addChild(currentCell.shape);
-            currentCell.shape.addEventListener('click', this._toggleCellAt.bind(this, cellsArray, i, j));
-        }
-    }
-    this._stage.update();
-};
-
-View.prototype._startButton = function () {
-    createjs.Ticker.addEventListener('tick', this.drawAndUpdate);
-    createjs.Ticker.setPaused(false);
-    createjs.Ticker.setInterval(200);
-};
-
-View.prototype._stepButton = function () {
-    this.emit('step');
-};
-
-View.prototype._pauseButton = function () {
-    createjs.Ticker.setPaused(true);
-};
-
-View.prototype._clearButton = function () {
-    createjs.Ticker.removeEventListener('tick', this.drawAndUpdate);
-    this.emit('clear');
-};
-
-View.prototype._updateAndDraw = function (event) {
-    if (!event.paused) {
-        this.emit('step');
-    }
-};
-
-View.prototype._toggleCellAt = function (cellsArray, i, j) {
-    const currentCell = cellsArray[i][j];
-    if (currentCell.status) {
-        currentCell.setDead();
-        this._drawDead(currentCell);
-    } else {
-        currentCell.setAlive();
-        this._drawAlive(currentCell);
-    }
-    currentCell.shape.x = i * 15;
-    currentCell.shape.y = j * 15;
-    this._stage.update();
-};
-
-View.prototype._makeAlive = function (currentCell) {
-    currentCell.shape = new createjs.Shape();
-    this._drawAlive(currentCell);
-};
-
-View.prototype._makeDead = function (currentCell) {
-    currentCell.shape = new createjs.Shape();
-    this._drawDead(currentCell);
-};
-
-View.prototype._drawAlive = function (currentCell) {
-    currentCell.shape.graphics.beginFill('#00ff99')
-        .beginStroke('#999999')
-        .drawRect(0, 0, 15, 15);
-};
-
-View.prototype._drawDead = function (currentCell) {
-    currentCell.shape.graphics.beginFill('#666666')
-        .beginStroke('#999999')
-        .drawRect(0, 0, 15, 15);
-};
 
 export default View;

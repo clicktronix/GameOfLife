@@ -6,14 +6,14 @@ class Cell {
     constructor() {
         this.status = false;
     }
+
+    setAlive() {
+        this.status = true;
+    }
+
+    setDead() {
+        this.status = false;
+    }
 }
-
-Cell.prototype.setAlive = function () {
-    this.status = true;
-};
-
-Cell.prototype.setDead = function () {
-    this.status = false;
-};
 
 export default Cell;
