@@ -28,46 +28,27 @@ class ActionScreen {
     }
 
     _updateAllCells() {
-        const newCellsArray = [];
-        for (let i = 0; i < this._width; i += 1) {
-            newCellsArray[i] = [];
-            for (let j = 0; j < this._height; j += 1) {
-                newCellsArray[i][j] = new Cell();
+        return this.cells.map((row, i) => {
+            return row.map((column, j) => {
+                const cell = new Cell();
                 if (this._cellViability(i, j)) {
-                    newCellsArray[i][j].setAlive();
+                    cell.setAlive();
                 } else {
-                    newCellsArray[i][j].setDead();
+                    cell.setDead();
                 }
-            }
-        }
-        return newCellsArray;
+                return cell;
+            });
+        });
     }
-
-    // _updateAllCells() {
-    //     return this.cells.map(function () {
-    //         return function () {
-    //             for (let i = 0; i < this._width; i += 1) {
-    //                 for (let j = 0; j < this._height; j += 1) {
-    //                     if (this._cellViability(i, j)) {
-    //                         this.cells[i][j].setAlive();
-    //                     } else {
-    //                         this.cells[i][j].setDead();
-    //                     }
-    //                 }
-    //             }
-    //         };
-    //     });
-    // }
 
     _getNeighborCount(i, j) {
         const currentCell = this.cells[i][j];
-        const getCurrentCellStatus = this._getCurrentCellStatus.bind(this);
         let count = (currentCell.status) ? -1 : 0;
 
         const neighborIndexes = [-1, 0, 1];
-        count = neighborIndexes.reduce(function (firstSum, rowIndex) {
-            return firstSum + neighborIndexes.reduce(function (secondSum, columnIndex) {
-                if (getCurrentCellStatus(i, j, columnIndex, rowIndex)) {
+        count = neighborIndexes.reduce((firstSum, rowIndex) => {
+            return firstSum + neighborIndexes.reduce((secondSum, columnIndex) => {
+                if (this._getCurrentCellStatus(i, j, columnIndex, rowIndex)) {
                     return secondSum + 1;
                 } else {
                     return secondSum;

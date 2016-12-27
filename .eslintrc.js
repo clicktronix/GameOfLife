@@ -17,7 +17,7 @@ module.exports = {
         "func-names": [0],
         "eol-last": [0],
         "no-var": [2],
-        "max-len": ["error", 110],
+        "arrow-body-style": ["error", "always"],
         "no-param-reassign": [0],
         "no-underscore-dangle": [0],
         "no-unused-vars": [2, {"vars": "all", "varsIgnorePattern": "init", "args": "after-used"}]

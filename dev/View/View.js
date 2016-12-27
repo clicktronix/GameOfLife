@@ -45,6 +45,20 @@ class View extends EventEmitter {
         this._stage.update();
     }
 
+    _toggleCellAt(cellsArray, i, j, square) {
+        const currentCell = cellsArray[i][j];
+        if (currentCell.status) {
+            currentCell.setDead();
+            View._drawDead(square);
+        } else {
+            currentCell.setAlive();
+            View._drawAlive(square);
+        }
+        square.x = i * 15;
+        square.y = j * 15;
+        this._stage.update();
+    }
+
     _gameEventManagement() {
         const start = this._startTheProcessOfLife.bind(this);
         const step = this._stepOfLife.bind(this);
@@ -88,20 +102,6 @@ class View extends EventEmitter {
         if (!event.paused) {
             this.emit('step');
         }
-    }
-
-    _toggleCellAt(cellsArray, i, j, square) {
-        const currentCell = cellsArray[i][j];
-        if (currentCell.status) {
-            currentCell.setDead();
-            View._drawDead(square);
-        } else {
-            currentCell.setAlive();
-            View._drawAlive(square);
-        }
-        square.x = i * 15;
-        square.y = j * 15;
-        this._stage.update();
     }
 
     static _drawAlive(square) {
