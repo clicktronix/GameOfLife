@@ -9,35 +9,35 @@ import ActionScreen from '../Model/ActionScreen';
 import View from '../View/View';
 
 describe('View tests', function () {
-    const canvas = $('<canvas class="action-screen" width="600" height="600"></canvas>');
-    const context1 = canvas.get(0).getContext('2d');
+    const canvas1 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
+    const context1 = canvas1.get(0).getContext('2d');
     const model = new ActionScreen(3);
     const view = new View(3);
 
     const canvas2 = $('<canvas class="action-screen" width="600" height="600"></canvas>');
     const context2 = canvas2.get(0).getContext('2d');
     const stage = new createjs.Stage('action-screen');
+    const square = new createjs.Shape();
 
     let i;
     let j;
 
     beforeEach(function () {
-        view.draw(model.getCells());
+        view.draw(model.cells);
 
         for (i = 0; i < 3; i += 1) {
             for (j = 0; j < 3; j += 1) {
-                const shape = new createjs.Shape();
                 if ((i === 1) && (j === 1)) {
-                    shape.graphics.beginFill('#00ff99')
+                    square.graphics.beginFill('#00ff99')
                         .beginStroke('#999999')
                         .drawRect(0, 0, 15, 15);
                 } else {
-                    shape.graphics.beginFill('#666666')
+                    square.graphics.beginFill('#666666')
                         .beginStroke('#999999')
                         .drawRect(0, 0, 15, 15);
                 }
-                shape.x = i * 15;
-                shape.y = j * 15;
+                square.x = i * 15;
+                square.y = j * 15;
             }
             stage.update();
         }
@@ -48,30 +48,29 @@ describe('View tests', function () {
     });
 
     it('Checks click on the cell', function () {
-        view._toggleCellAt(model.cells, 1, 1);
+        view._toggleCellAt(model.cells, 1, 1, square);
 
         assert.equal(context1.hash(), context2.hash());
     });
 
-    it('Checks change fill of the alive cell', function () {
-        const currentCell = { status: false };
-        view._makeAlive(currentCell);
+    describe('Colors check', function () {
+        it('Checks change fill of the alive cell', function () {
+            View._drawAlive(square);
 
-        assert.equal(currentCell.shape.graphics._fill.style, '#00ff99');
-    });
+            assert.equal(square.graphics._fill.style, '#00ff99');
+        });
 
-    it('Checks change fill of the dead cell', function () {
-        const currentCell = { status: false };
-        view._makeDead(currentCell);
+        it('Checks change fill of the dead cell', function () {
+            View._drawDead(square);
 
-        assert.equal(currentCell.shape.graphics._fill.style, '#666666');
-    });
+            assert.equal(square.graphics._fill.style, '#666666');
+        });
 
-    it('Checks equal color of the stroke', function () {
-        const currentCell = { status: false };
-        view._makeDead(currentCell);
+        it('Checks equal color of the stroke', function () {
+            View._drawDead(square);
 
-        assert.equal(currentCell.shape.graphics._stroke.style, '#999999');
+            assert.equal(square.graphics._stroke.style, '#999999');
+        });
     });
 });
 
@@ -93,8 +92,8 @@ describe('Manage elements tests', function () {
     const $pauseButton = $('.action-buttons__js-pause-button');
 
     beforeEach(function () {
-        clearSpy = sinon.spy(model, 'getCells');
-        stepSpy = sinon.spy(model, 'updateAllCells');
+        clearSpy = sinon.spy(model, 'setEmptyArray');
+        stepSpy = sinon.spy(model, 'setUpdatedCells');
     });
 
     afterEach(function () {
@@ -141,7 +140,7 @@ describe('Manage elements tests', function () {
     describe('End to end manage tests', function () {
         it('End to end clear button test', function () {
             $clearButton.click(function () {
-                view.draw(model.getCells());
+                model.setEmptyArray();
             });
             $clearButton.click();
             sinon.assert.called(clearSpy);
@@ -149,7 +148,7 @@ describe('Manage elements tests', function () {
 
         it('End to end step button test', function () {
             $stepButton.click(function () {
-                model.cells = model.updateAllCells(model.cells);
+                model.setUpdatedCells();
                 view.draw(model.cells);
             });
             $stepButton.click();

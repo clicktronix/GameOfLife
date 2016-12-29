@@ -117,5 +117,4 @@ class View extends EventEmitter {
     }
 }
 
-
 export default View;
