@@ -1,6 +1,6 @@
 # GameOfLife
-## Game of life on JavaScript, FSD team.
-### To start build application entered 
+## Game of life on JavaScript
+### Enter the following to start building the application
     npm i
     npm run build
 ### Or 
