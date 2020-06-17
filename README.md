@@ -1,4 +1,4 @@
-# GameOfLife
+# game-of-life
 ## Game of life on JavaScript
 ### Enter the following to start building the application
     npm i
